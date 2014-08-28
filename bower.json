@@ -1,0 +1,13 @@
+{
+  "name": "AngularComponentTesting",
+  "version": "0.0.1",
+  "private": "true",
+  "dependencies": {
+    "angularjs": "latest",
+    "angular-route": "~1.2.x",
+    "angular-local-storage": "latest",
+    "normalize-scss": "latest",
+    "bourbon": "latest",
+    "susy": "latest"
+  }
+}

@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+var debug = require('debug')('myapp');
+var app = require('../app');
+var port = 9000;
+
+// Setup a default port if one has not been passed through
+if(process.env.PORT) port = process.env.PORT;
+
+var server = app.listen(port, function() {
+  debug('Express server listening on port ' + server.address().port);
+});
