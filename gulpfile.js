@@ -19,11 +19,6 @@ var devEnvironment = false;
  * Production Browser 
  */
 gulp.task('server-prod', [
-  'uglify',
-  'concatAllAngularComponents',
-  'combineAngularViewsAndComponentsHTMLToJS',
-  'concatPackages',
-  'sassCompile-prod',
 ], shell.task([
   "forever stopall",
   "PORT=80 forever start app/bin/www"
