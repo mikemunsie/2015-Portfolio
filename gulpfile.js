@@ -26,7 +26,7 @@ gulp.task('server-prod', [
   'sassCompile-prod',
 ], shell.task([
   "forever stopall",
-  "PORT=9000 forever start app/bin/www"
+  "PORT=80 forever start app/bin/www"
 ], {
   ignoreErrors: true
 }));
