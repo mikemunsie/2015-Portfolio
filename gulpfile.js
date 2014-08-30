@@ -245,7 +245,7 @@ gulp.task('prod', [
   'concatAllAngularComponents',
   'combineAngularViewsAndComponentsHTMLToJS',
   'concatPackages',
-  'sassCompile-dev',
+  'sassCompile-prod',
   'server-prod'
 ]);
 
