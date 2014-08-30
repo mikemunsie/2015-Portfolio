@@ -123,7 +123,7 @@ gulp.task('sassCompile-dev', shell.task([
  * Sass Compilation [prod]
  */
 gulp.task('sassCompile-prod', shell.task([
-  "bundle exec sass --update app/sass:app/public/stylesheets --style compressed"
+  "bundle exec sass --update --force app/sass:app/public/stylesheets --style compressed"
 ]));
 
 /**
