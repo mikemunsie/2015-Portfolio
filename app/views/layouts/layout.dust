@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/public/stylesheets/style.css"/>
     
     <!-- Our Application -->
-    <script src="/public/javascripts-min/packages/package-{+app/}-app.js"></script>
+    <script src="/public/javascripts-min/packages/package-{@downcase}INDEx{/downcase}-app.js"></script>
     
   </head>
   <body>

@@ -5,7 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cons = require('consolidate');
-var dust = require('../node_modules/express-dust/lib/dust');
+var dust = require('dustjs-linkedin');
+var dustCommonHelpers = new (require("common-dustjs-helpers")).CommonDustjsHelpers();
+
+// Link common helpers to DustJS
+dustCommonHelpers.export_helpers_to(dust);
 
 // Routes
 var routes = require('./routes/index');
@@ -15,6 +19,7 @@ var app = express();
 app.engine('dust', cons.dust);
 app.set('view engine', 'dust');
 app.set('views', path.join(__dirname, 'views'));
+
 
 app.use(favicon());
 app.use(logger('dev'));
