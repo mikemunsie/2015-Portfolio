@@ -1,1 +1,1 @@
-angular.module("components.session",["LocalStorageModule"]);
+angular.module("components.session", ["LocalStorageModule"]);

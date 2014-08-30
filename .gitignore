@@ -1,4 +1,7 @@
 node_modules
 .sass-cache/
 .bundle/
+app/public/javascripts-min/
+app/public/stylesheets/
+app/public/vendor/
 Gemfile.lock

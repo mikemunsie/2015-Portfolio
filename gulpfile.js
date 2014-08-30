@@ -241,6 +241,11 @@ gulp.task('setupDevEnvironment', function() {
  * Default (Production ready)
  */
 gulp.task('prod', [
+  'uglify',
+  'concatAllAngularComponents',
+  'combineAngularViewsAndComponentsHTMLToJS',
+  'concatPackages',
+  'sassCompile-dev',
   'server-prod'
 ]);
 

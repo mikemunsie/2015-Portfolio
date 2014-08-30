@@ -230,55 +230,201 @@ n.directive("ngView",x);n.directive("ngView",z);x.$inject=["$route","$anchorScro
 //# sourceMappingURL=angular-route.min.js.map
 
 (function(){"use strict";var a=angular.module("LocalStorageModule",[]);a.provider("localStorageService",function(){this.prefix="ls",this.storageType="localStorage",this.cookie={expiry:30,path:"/"},this.notify={setItem:!0,removeItem:!1},this.setPrefix=function(a){this.prefix=a},this.setStorageType=function(a){this.storageType=a},this.setStorageCookie=function(a,b){this.cookie={expiry:a,path:b}},this.setStorageCookieDomain=function(a){this.cookie.domain=a},this.setNotify=function(a,b){this.notify={setItem:a,removeItem:b}},this.$get=["$rootScope","$window","$document",function(a,b,c){var d,e=this,f=e.prefix,g=e.cookie,h=e.notify,i=e.storageType;c?c[0]&&(c=c[0]):c=document,"."!==f.substr(-1)&&(f=f?f+".":"");var j=function(a){return f+a},k=function(){try{var c=i in b&&null!==b[i],e=j("__"+Math.round(1e7*Math.random()));return c&&(d=b[i],d.setItem(e,""),d.removeItem(e)),c}catch(f){return i="cookie",a.$broadcast("LocalStorageModule.notification.error",f.message),!1}}(),l=function(b,c){if(!k||"cookie"===e.storageType)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),h.setItem&&a.$broadcast("LocalStorageModule.notification.setitem",{key:b,newvalue:c,storageType:"cookie"}),r(b,c);"undefined"==typeof c&&(c=null);try{(angular.isObject(c)||angular.isArray(c))&&(c=angular.toJson(c)),d&&d.setItem(j(b),c),h.setItem&&a.$broadcast("LocalStorageModule.notification.setitem",{key:b,newvalue:c,storageType:e.storageType})}catch(f){return a.$broadcast("LocalStorageModule.notification.error",f.message),r(b,c)}return!0},m=function(b){if(!k||"cookie"===e.storageType)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),s(b);var c=d?d.getItem(j(b)):null;return c&&"null"!==c?"{"===c.charAt(0)||"["===c.charAt(0)?angular.fromJson(c):c:null},n=function(b){if(!k)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),h.removeItem&&a.$broadcast("LocalStorageModule.notification.removeitem",{key:b,storageType:"cookie"}),t(b);try{d.removeItem(j(b)),h.removeItem&&a.$broadcast("LocalStorageModule.notification.removeitem",{key:b,storageType:e.storageType})}catch(c){return a.$broadcast("LocalStorageModule.notification.error",c.message),t(b)}return!0},o=function(){if(!k)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),!1;var b=f.length,c=[];for(var e in d)if(e.substr(0,b)===f)try{c.push(e.substr(b))}catch(g){return a.$broadcast("LocalStorageModule.notification.error",g.Description),[]}return c},p=function(b){b=b||"";var c=f.slice(0,-1),e=new RegExp(c+"."+b);if(!k)return a.$broadcast("LocalStorageModule.notification.warning","LOCAL_STORAGE_NOT_SUPPORTED"),u();var g=f.length;for(var h in d)if(e.test(h))try{n(h.substr(g))}catch(i){return a.$broadcast("LocalStorageModule.notification.error",i.message),u()}return!0},q=function(){try{return navigator.cookieEnabled||"cookie"in c&&(c.cookie.length>0||(c.cookie="test").indexOf.call(c.cookie,"test")>-1)}catch(b){return a.$broadcast("LocalStorageModule.notification.error",b.message),!1}},r=function(b,d){if("undefined"==typeof d)return!1;if(!q())return a.$broadcast("LocalStorageModule.notification.error","COOKIES_NOT_SUPPORTED"),!1;try{var e="",f=new Date,h="";if(null===d?(f.setTime(f.getTime()+-864e5),e="; expires="+f.toGMTString(),d=""):0!==g.expiry&&(f.setTime(f.getTime()+24*g.expiry*60*60*1e3),e="; expires="+f.toGMTString()),b){var i="; path="+g.path;g.domain&&(h="; domain="+g.domain),c.cookie=j(b)+"="+encodeURIComponent(d)+e+i+h}}catch(k){return a.$broadcast("LocalStorageModule.notification.error",k.message),!1}return!0},s=function(b){if(!q())return a.$broadcast("LocalStorageModule.notification.error","COOKIES_NOT_SUPPORTED"),!1;for(var d=c.cookie&&c.cookie.split(";")||[],e=0;e<d.length;e++){for(var g=d[e];" "===g.charAt(0);)g=g.substring(1,g.length);if(0===g.indexOf(j(b)+"="))return decodeURIComponent(g.substring(f.length+b.length+1,g.length))}return null},t=function(a){r(a,null)},u=function(){for(var a=null,b=f.length,d=c.cookie.split(";"),e=0;e<d.length;e++){for(a=d[e];" "===a.charAt(0);)a=a.substring(1,a.length);var g=a.substring(b,a.indexOf("="));t(g)}},v=function(){return i},w=function(a,b,c){var d=m(b);null===d&&angular.isDefined(c)?d=c:angular.isObject(d)&&angular.isObject(c)&&(d=angular.extend(c,d)),a[b]=d,a.$watchCollection(b,function(a){l(b,a)})};return{isSupported:k,getStorageType:v,set:l,add:l,get:m,keys:o,remove:n,clearAll:p,bind:w,deriveKey:j,cookie:{set:r,add:r,get:s,remove:t,clearAll:u}}}]})}).call(this);
-angular.module("components.auth",["components.session"]).constant("AUTH_EVENTS",{loginSuccess:"auth-login-success",loginFailed:"auth-login-failed",logoutSuccess:"auth-logout-success",sessionTimeout:"auth-session-timeout",notAuthenticated:"auth-not-authenticated",notAuthorized:"auth-not-authorized"}),angular.module("components.auth").factory("components.auth.service",["$http","components.session.service",function($http,sessionService){var authService={};return authService.getUser=function(){return sessionService.getUser()},authService.authorizeCheck=function(next,$location){next.authorization&&(authService.isAuthorized()||$location.url("/"))},authService.isAuthorized=function(){return null!==sessionService.getUser().sessionId},authService.logout=function(){sessionService.remove()},authService.login=function(credentials){return $http.get("/",credentials).then(function(){sessionService.create(credentials)},function(){})},authService}]),angular.module("components.login",["components.registration","components.auth","ngRoute"]),angular.module("components.login").controller("components.login.controller",["$scope","components.registration.service","components.auth.service","$location",function($scope,registrationService,authService,$location){function login(){authService.login($scope.credentials)}function redirectToDashboard(){$location.url("/dashboard")}$scope.redirectToDashboard=redirectToDashboard,$scope.welcomeText="Login Controller",$scope.login=login,$scope.credentials={username:"",password:""}}]),angular.module("components.registration",[]),angular.module("components.registration").factory("components.registration.service",function(){return this.test="Sweetness",this}),angular.module("components.registration").controller("components.registration.controller",["$scope","components.registration.service",function($scope,$components_registrationService){$scope.welcomeText="Registration!! - "+$components_registrationService.test}]),angular.module("components.session",["LocalStorageModule"]),angular.module("components.session").factory("components.session.service",["localStorageService",function(localStorageService){function init(){localStorageService.get("user")&&(user=localStorageService.get("user"))}var user={username:null,sessionId:null};return this.getUser=function(){return user},this.create=function(credentials){user.sessionId="someMadeUpSession",user.username=credentials.username,localStorageService.set("user",user)},this.remove=function(){localStorageService.clearAll(),user.username=null,user.sessionId=null},init(),this}]);
-(function(module) {
-try {
-  module = angular.module('componentsAndViewsHTMLToJS');
-} catch (e) {
-  module = angular.module('componentsAndViewsHTMLToJS', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/public/angular-components/login/login.html',
-    '<div class="component-login" ng-controller="components.login.controller"><div ng-show="!$root.isAuthorized()"><form ng-submit="login()"><h1>Login Component</h1>Username:<br><input type="text" ng-model="credentials.username"><br>Password:<br><input type="password" ng-model="credentials.password"><br><input type="submit" value="Login"></form></div><div ng-show="$root.isAuthorized()">Hello [[$root.user().username]]!<br>You are authorized!<br><br><a href="javascript:;" ng-click="redirectToDashboard()">Enter the dashboard!</a><br><br><input type="button" value="logout" ng-click="$root.logout()"></div></div>');
-}]);
-})();
+angular.module("components.auth", ["components.session"])
+.constant("AUTH_EVENTS", {
+  loginSuccess: 'auth-login-success',
+  loginFailed: 'auth-login-failed',
+  logoutSuccess: 'auth-logout-success',
+  sessionTimeout: 'auth-session-timeout',
+  notAuthenticated: 'auth-not-authenticated',
+  notAuthorized: 'auth-not-authorized'
+});
+angular.module("components.auth")
+  .factory("components.auth.service", [
+    "$http",
+    "components.session.service",
+    function($http, sessionService){
+      var authService = {};
 
-(function(module) {
-try {
-  module = angular.module('componentsAndViewsHTMLToJS');
-} catch (e) {
-  module = angular.module('componentsAndViewsHTMLToJS', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/public/angular-components/registration/registration.html',
-    '<div class="component-registration" ng-controller="components.registration.controller">Hello, I am the registration controller :)<br>[[welcomeText]]</div>');
-}]);
-})();
+      authService.getUser = function(){
+        return sessionService.getUser();
+      };
 
-(function(module) {
-try {
-  module = angular.module('componentsAndViewsHTMLToJS');
-} catch (e) {
-  module = angular.module('componentsAndViewsHTMLToJS', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/public/angular-views/dashboard/dashboard.html',
-    '<div ng-controller="views.dashboard.controller"><h1>Bonjour! Tis the Dashboard something345567890 controller.</h1><p><i>I understand this uses the double [[. It\'s a quick and dirty sample :)</i></p><br>Welcome Text: [[welcomeText]]<br><hr><br><h2>Testing Registratiasdfon Component</h2><div ng-include="\'/public/angular-components/registration/registration.html\'"></div></div>');
-}]);
-})();
+      authService.authorizeCheck = function(next, $location){
+        if(next.authorization){
+          if(!authService.isAuthorized()) $location.url("/");
+        }
+      };
 
-(function(module) {
-try {
-  module = angular.module('componentsAndViewsHTMLToJS');
-} catch (e) {
-  module = angular.module('componentsAndViewsHTMLToJS', []);
-}
-module.run(['$templateCache', function($templateCache) {
-  $templateCache.put('/public/angular-views/index/index.html',
-    '<div ng-controller="views.index.controller"><h1>Angular Component Testing</h1><p><i>I understand this uses the double [[. It\'s a quick and dirty sample :)</i></p><br>Welcome Text: [[welcomeText]]<br><br><h2>Testing Login Component</h2><div ng-include="\'/public/angular-components/login/login.html\'"></div><br><hr><br><h2>Testing Registration Component</h2><div ng-include="\'/public/angular-components/registration/registration.html\'"></div></div>');
-}]);
-})();
+      authService.isAuthorized = function(){
+        return sessionService.getUser().sessionId !== null;
+      };
 
-angular.module("views.index",["components.registration","components.login"]).controller("views.index.controller",["$scope","components.registration.service",function($scope,$components_registrationService){$scope.welcomeText="Login - "+$components_registrationService.test}]);
-angular.module("views.dashboard",["components.registration","components.login"]).controller("views.dashboard.controller",["$scope","components.registration.service",function(){}]);
-!function(){"use strict";angular.module("Index",["views.index","views.dashboard","ngRoute","components.auth","components.session","componentsAndViewsHTMLToJS"]).config(function($interpolateProvider,$routeProvider,$locationProvider){var views="/public/angular-views/";$interpolateProvider.startSymbol("[["),$interpolateProvider.endSymbol("]]"),$routeProvider.when("/",{templateUrl:views+"index/index.html"}).when("/dashboard",{templateUrl:views+"dashboard/dashboard.html",authorization:!0}).otherwise({redirectTo:"/"}),$locationProvider.html5Mode(!1)}).run(["$rootScope","$location","components.auth.service","components.session.service",function($rootScope,$location,authService){$rootScope.isAuthorized=authService.isAuthorized,$rootScope.user=authService.getUser,$rootScope.logout=authService.logout,$rootScope.$on("$routeChangeStart",function(event,next){return authService.authorizeCheck(next,$location)})}])}();
+      authService.logout = function(){
+        sessionService.remove();
+      };
+
+      authService.login = function(credentials){
+        return $http
+          .get('/', credentials)
+          .then(function(response){
+            sessionService.create(credentials);
+          }, function(response){
+
+          });
+      };
+  
+      return authService;
+    }
+  ]);
+angular.module("components.login", [
+  "components.registration",
+  "components.auth",
+  "ngRoute"
+]);
+angular.module("components.login")
+  .controller("components.login.controller", [
+    "$scope",
+    "components.registration.service",
+    "components.auth.service",
+    "$location",
+    function($scope, registrationService, authService, $location){
+
+      function login(){
+        authService.login($scope.credentials);
+      }
+
+      function redirectToDashboard(){
+        $location.url("/dashboard");
+      }
+
+      $scope.redirectToDashboard = redirectToDashboard;
+      $scope.welcomeText = "Login Controller";
+      $scope.login = login;
+      $scope.credentials = {
+        username: "",
+        password: ""
+      };
+
+    }
+  ]);
+angular.module("components.registration", []);
+angular
+  .module("components.registration")
+  .factory("components.registration.service", function(){
+    this.test = "Sweetness";
+    return this;
+  });
+angular.module("components.registration")
+  .controller("components.registration.controller", ["$scope", "components.registration.service", function($scope, $components_registrationService){
+    $scope.welcomeText = "Registration!! - " + $components_registrationService.test;
+  }]);
+angular.module("components.session", ["LocalStorageModule"]);
+angular.module("components.session")
+.factory("components.session.service", [
+  "localStorageService",
+  function(localStorageService){
+
+    var user = {
+      username: null,
+      sessionId: null
+    };
+
+    function init(){
+      if(localStorageService.get('user')){
+        user = localStorageService.get('user');
+      }
+    }
+
+    this.getUser = function(){
+      return user;
+    };
+
+    this.create = function(credentials){
+      user.sessionId = "someMadeUpSession";
+      user.username = credentials.username;
+      localStorageService.set("user", user);
+    };
+
+    this.remove = function(){
+      localStorageService.clearAll();
+      user.username = null;
+      user.sessionId = null;
+    };
+
+    init();
+    return this;
+  }
+]);
+!function(module){try{module=angular.module("componentsAndViewsHTMLToJS")}catch(e){module=angular.module("componentsAndViewsHTMLToJS",[])}module.run(["$templateCache",function($templateCache){$templateCache.put("/public/angular-components/login/login.html",'<div class="component-login" ng-controller="components.login.controller"><div ng-show="!$root.isAuthorized()"><form ng-submit="login()"><h1>Login Component</h1>Username:<br><input type="text" ng-model="credentials.username"><br>Password:<br><input type="password" ng-model="credentials.password"><br><input type="submit" value="Login"></form></div><div ng-show="$root.isAuthorized()">Hello [[$root.user().username]]!<br>You are authorized!<br><br><a href="javascript:;" ng-click="redirectToDashboard()">Enter the dashboard!</a><br><br><input type="button" value="logout" ng-click="$root.logout()"></div></div>')}])}(),function(module){try{module=angular.module("componentsAndViewsHTMLToJS")}catch(e){module=angular.module("componentsAndViewsHTMLToJS",[])}module.run(["$templateCache",function($templateCache){$templateCache.put("/public/angular-components/registration/registration.html",'<div class="component-registration" ng-controller="components.registration.controller">Hello, I am the registration controller :)<br>[[welcomeText]]</div>')}])}(),function(module){try{module=angular.module("componentsAndViewsHTMLToJS")}catch(e){module=angular.module("componentsAndViewsHTMLToJS",[])}module.run(["$templateCache",function($templateCache){$templateCache.put("/public/angular-views/dashboard/dashboard.html",'<div ng-controller="views.dashboard.controller"><h1>Bonjour! Tis the Dashboard something345567890 controller.</h1><p><i>I understand this uses the double [[. It\'s a quick and dirty sample :)</i></p><br>Welcome Text: [[welcomeText]]<br><hr><br><h2>Testing Registratiasdfon Component</h2><div ng-include="\'/public/angular-components/registration/registration.html\'"></div></div>')}])}(),function(module){try{module=angular.module("componentsAndViewsHTMLToJS")}catch(e){module=angular.module("componentsAndViewsHTMLToJS",[])}module.run(["$templateCache",function($templateCache){$templateCache.put("/public/angular-views/index/index.html",'<div ng-controller="views.index.controller"><h1>Angular Component Testing</h1><p><i>I understand this uses the double [[. It\'s a quick and dirty sample :)</i></p><br>Welcome Text: [[welcomeText]]<br><br><h2>Testing Login Component</h2><div ng-include="\'/public/angular-components/login/login.html\'"></div><br><hr><br><h2>Testing Registration Component</h2><div ng-include="\'/public/angular-components/registration/registration.html\'"></div></div>')}])}();
+angular.module("views.index", ["components.registration", "components.login"])
+  .controller("views.index.controller", ["$scope", "components.registration.service", function($scope, $components_registrationService){
+    $scope.welcomeText = "Login - " + $components_registrationService.test;
+  }]);
+angular.module("views.dashboard", [
+  "components.registration", 
+  "components.login"
+])
+.controller("views.dashboard.controller", [
+  "$scope", 
+  "components.registration.service", 
+  function($scope, $components_registrationService){
+
+  }
+]);
+(function(){
+
+  'use strict';
+
+  var app = angular.module("Index", [
+    "views.index",
+    "views.dashboard",
+    "ngRoute",
+    "components.auth",
+    "components.session",
+    "componentsAndViewsHTMLToJS"
+  ])
+  .config(function($interpolateProvider, $routeProvider, $locationProvider) {
+  
+    var views = "/public/angular-views/";
+
+    // Configure the AngularJS string interpolatation
+    $interpolateProvider.startSymbol('[[');
+    $interpolateProvider.endSymbol(']]');
+
+    // Configure the routes for this app
+    $routeProvider
+      .when('/', {
+        templateUrl: views + "index/index.html"
+      })
+      .when('/dashboard', {
+        templateUrl: views + "dashboard/dashboard.html",
+        authorization: true
+      })
+      .otherwise({
+        redirectTo: "/"
+      });
+
+    // configure html5 to get links working on jsfiddle
+    $locationProvider.html5Mode(false);
+  })
+  .run([
+    "$rootScope",
+    "$location",
+    "components.auth.service",
+    "components.session.service",
+    function($rootScope, $location, authService, sessionService){
+
+      // Define our globally used variables
+      $rootScope.isAuthorized = authService.isAuthorized;
+      $rootScope.user = authService.getUser;
+      $rootScope.logout = authService.logout;
+
+      // Add some route checking
+      $rootScope.$on('$routeChangeStart', function (event, next) {
+        return authService.authorizeCheck(next, $location);
+      });
+    }
+  ]);
+
+})();
