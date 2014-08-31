@@ -20,7 +20,7 @@ var devEnvironment = false;
  */
 gulp.task('server-prod', [
 ], shell.task([
-  "forever stopall",
+  "forever stop app/bin/www",
   "PORT=80 forever start app/bin/www"
 ], {
   ignoreErrors: true
