@@ -20,8 +20,8 @@ var devEnvironment = false;
  */
 gulp.task('server-prod', [
 ], shell.task([
-  "forever stop app/bin/www",
-  "PORT=80 forever start app/bin/www"
+  "forever stop munstrocity.com",
+  "PORT=80 forever --uid munstrocity.com start app/bin/www"
 ], {
   ignoreErrors: true
 }));
