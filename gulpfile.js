@@ -76,12 +76,6 @@ gulp.task('prod', function() {
     .then(createContentCSS)
     .then(createAppCSS)
     .then(function() {
-      shell.task([
-        "forever stop munstrocity.com",
-        "sudo PORT=80 forever --uid munstrocity.com start app/bin/www"
-      ], {
-        ignoreErrors: true
-      })();
       deferred.resolve();
     });
   return deferred.promise;
