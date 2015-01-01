@@ -1,0 +1,126 @@
+@import "config";
+
+// Normalize
+@import "../vendor/inuit-normalize/generic.normalize";
+
+// Elements
+@import "elements/buttons";
+@import "elements/images";
+@import "elements/animations";
+@import "elements/footer";
+@import "elements/header";
+@import "elements/postTemplate";
+@import "elements/rightWidgets";
+
+// Vendors
+@import "vendor/syntaxHighlighter";
+
+// Fonts
+@import url(http://fonts.googleapis.com/css?family=Roboto:300italic,400italic,600italic,400,300,600,700);
+@import "../vendor/font-awesome/scss/font-awesome";
+
+html {
+  min-height: 100%;
+  height: 100%;
+}
+
+// Base Styles
+body {
+  color: #424242;
+  min-height: 100%;
+  height: 100%;
+  background: white;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: $default-text;
+  > .pageWrap {
+    height: auto;
+    min-height: 100%;
+    @include helpers-group;
+  }
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.center {
+  text-align: center;
+  display: block;
+}
+
+b, strong {
+  font-weight: 600;
+}
+
+.container {
+  @include helpers-container;
+}
+
+.group {
+  @include helpers-group;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 300;
+}
+
+a {
+  color: #531b4e;
+  text-decoration: none;
+  word-wrap: break-word;
+}
+
+h1 {
+  color: #424242;
+  font-size: 35px;
+  font-weight: 300;
+  margin: 0;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+p {
+  color: #424242;
+  line-height: 25px;
+}
+
+img {
+  max-width: 100%;
+}
+
+iframe {
+  max-width: 100%;
+}
+
+@include respond-at(false, 950px) {
+  h1 {
+    font-size: 25px;
+  }
+}
+
+@include respond-at(false, 485px) {
+  .container {
+    padding: 0 $pad / 2;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  h2 {
+    font-size: 16px;
+  }
+}
+
+@include respond-at(false, 400px) {
+  body {
+    font-size: 15px;
+  }
+}

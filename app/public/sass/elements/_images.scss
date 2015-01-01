@@ -1,0 +1,53 @@
+@import "../config";
+
+.image {
+  &.logo {
+    background: url("../images/logo.png");
+    width: 160px;
+    height: 40px;
+    display: block;
+    background-repeat: none;
+  }
+  &.twitter {
+    background: url("../images/twitter.png");
+    width: 26px;
+    height: 20px;
+    display: block;
+    background-repeat: none;
+  }
+  &.linkedin {
+    background: url("../images/linkedin.png");
+    width: 25px;
+    height: 25px;
+    display: block;
+    background-repeat: none;
+  }
+  &.youtube {
+    background: url("../images/youtube.png");
+    width: 25px;
+    height: 25px;
+    display: block;
+    background-repeat: none;
+  }
+  &.facebook {
+    background: url("../images/facebook.png");
+    width: 25px;
+    height: 25px;
+    display: block;
+    background-repeat: none;
+  }
+  &.google {
+    background: url("../images/google.png");
+    width: 25px;
+    height: 25px;
+    display: block;
+    background-repeat: none;
+  }
+  &.github {
+    background: url("../images/github.png");
+    width: 25px;
+    height: 25px;
+    display: block;
+    background-repeat: none;
+  }
+}

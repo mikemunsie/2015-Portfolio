@@ -1,0 +1,72 @@
+@import "../config";
+
+.header {
+  background: $header-color linear-gradient($header-color, darken($header-color, 5));
+  height: 75px;
+  border-bottom: 5px solid lighten($header-color, 40);
+  position: relative;
+  z-index: 1;
+  .logo {
+    float: left;
+    margin-top: 18px;
+  }
+  .nav {
+    float: right;
+    line-height: 75px;
+    a {
+      font-weight: 300;
+      color: white;
+      display: block;
+      float: left;
+      margin-right: $pad * 3;
+      font-size: 18px;
+      @include animate(popDown, 0.3s, 0s);
+      &.last {
+        margin-right: 0;
+      }
+      &:hover {
+        @include animate(popUp, 0.3s, 0s);
+      }
+      &.selected {
+        color: lighten($link-color, 20);
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@include respond-at(false, 485px) {
+  body {
+    padding-top: 70px;
+  }
+  .header {
+    position: fixed;
+    border-bottom: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    .logo {
+      width: 140px;
+      height: 35px;
+      background-size: cover;
+    }
+    .nav {
+      a {
+        margin-right: 25px;
+        font-size: 16px;
+        padding-right: 20px;
+      }
+    }
+  }
+}
+
+@include respond-at(false, 400px) {
+  .header {
+    .nav {
+      a {
+        margin-right: 15px;
+        font-size: 16px;
+      }
+    }
+  }
+}

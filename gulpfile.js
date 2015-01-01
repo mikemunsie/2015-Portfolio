@@ -1,265 +1,483 @@
-var gulp =        require('gulp'),
-    walk =        require('walk'),
-    concat =      require('gulp-concat'),
-    uglify =      require('gulp-uglify'),
-    gulpif =      require('gulp-if'),
-    shell =       require('gulp-shell'),
-    gulpUtil =    require('gulp-util'),
-    browserSync = require('browser-sync'),
-    path =        require('path'),
-    minifyCSS =   require('gulp-minify-css'),
-    spawn =       require('child_process').spawn,
-    ngHtml2Js  =  require('gulp-ng-html2js'),
-    minifyHtml =  require('gulp-minify-html'),
-    node;
+var _ =             require("lodash-node");
+var browserify =    require('gulp-browserify');
+var browserSync =   require("browser-sync");
+var del =           require("del");
+var concat =        require('gulp-concat');
+var eventEmitter =  require('events').EventEmitter;
+var fs =            require('fs');
+var glob =          require("glob");
+var gulp =          require("gulp");
+var gulpif =        require("gulp-if");
+var gulpUtil =      require("gulp-util");
+var gulpWatch =     require("gulp-watch");
+var minifyCSS =     require("gulp-minify-css");
+var minifyHtml =    require('gulp-minify-html');
+var ngAnnotate =    require('gulp-ng-annotate');
+var ngHtml2Js =     require('gulp-ng-html2js');
+var Q =             require("q");
+var path =          require("path");
+var plumber =       require("gulp-plumber");
+var sass =          require("gulp-sass");
+var shell =         require("gulp-shell");
+var spawn =         require('child_process').spawn;
+var sourcemaps =    require("gulp-sourcemaps");
+var uglify =        require('gulp-uglify');
+var walk =          require('walk');
+
+// ====================================
+// Globals
+// ====================================
 
 var devEnvironment = false;
-  
-/**
- * Production Browser 
- */
-gulp.task('server-prod', [
-], shell.task([
-  "forever stop munstrocity.com",
-  "PORT=80 forever --uid munstrocity.com start app/bin/www"
-], {
-  ignoreErrors: true
-}));
+var fastDev = false;
+var port = 9003;
 
-/**
- * Browser Sync Settings
- */
-gulp.task('browserSync', ['concatPackages'], function() {
-  browserSync.init([], {
-    "files": [
-      "./app/public/**/*",
-      "./app/views/**/*",
-      "!./app/public/vendor/**/*"
-    ],
-    "browsers": ['google chrome'],
-    "proxy": "http://localhost:9000"
-  });
+var angularFolders = [
+  "angular_components",
+  "angular_layouts",
+  "angular_views"
+];
+
+var browserSyncConfig = {
+  files: [
+    "app/public/images/**/*",
+    "app/public/javascripts-min/apps/**/*.js",
+    "app/public/javascripts-min/packages/**/*.js",
+    "app/public/stylesheets/**/*.css",
+    "app/public/mocks/**/*.json"
+  ],
+  browsers: ["google chrome"],
+  proxy: "http://localhost:" + port + "/",
+  injectChanges: true,
+  reloadDelay: 1000
+};
+
+var packages = {
+  "global": [
+    "./app/public/vendor/jquery/dist/jquery.min.js",
+    "./app/public/javascripts-min/commonJS/site.js",
+    "./app/public/vendor-local/syntax/scripts/shCore.js",
+    "./app/public/vendor-local/syntax/scripts/shBrushCss.js",
+    "./app/public/vendor-local/syntax/scripts/shBrushJScript.js",
+    "./app/public/vendor-local/syntax/scripts/shBrushPhp.js",
+    "./app/public/vendor-local/syntax/scripts/shBrushSass.js"
+  ]
+};
+
+// ====================================
+// Tasks
+// ====================================
+
+gulp.task('prod', function() {
+  var deferred = Q.defer();
+  cleanAppJS()
+    .then(cleanCSS)
+    .then(createAppJS)
+    .then(createContentCSS)
+    .then(createAppCSS)
+    .then(function() {
+      shell.task([
+        "forever stop munstrocity.com",
+        "PORT=8000 forever --uid munstrocity.com start app/bin/www"
+      ], {
+        ignoreErrors: true
+      })();
+      deferred.resolve();
+    });
+  return deferred.promise;
 });
 
-/**
- * Merge angular views into one compressed JS file
- */
-gulp.task("combineAngularViewsAndComponentsHTMLToJS", [
-  "angularComponentsHTMLToJS",
-  "angularViewsHTMLToJS"
-], function(){
-  return gulp.src([
-    "./app/public/javascripts-min/angular-components-views-htmlToJS/angular-components.js",
-    "./app/public/javascripts-min/angular-components-views-htmlToJS/views.js"
-  ])
-  .pipe(concat("all.js"))
-  .pipe(gulpif(devEnvironment, uglify({
-    mangle: false
-  })))
-  .pipe(gulp.dest("./app/public/javascripts-min/angular-components-views-htmlToJS"));
-});
-
-/**
- * Convert all angular angular-components into JS file
- */
-gulp.task('angularComponentsHTMLToJS', function(){
-  return gulp.src([
-    "./app/public/angular-components/**/*.html"
-  ])
-  .pipe(minifyHtml({
-    empty: true,
-    spare: true,
-    quotes: true
-  }))
-  .pipe(ngHtml2Js({
-    moduleName: "componentsAndViewsHTMLToJS",
-    prefix: "/public/angular-components/"
-  }))
-  .pipe(concat("angular-components.js"))
-  .pipe(gulp.dest("./app/public/javascripts-min/angular-components-views-htmlToJS/"));
-});
-
-/**
- * Convert all angular views into JS file
- */
-gulp.task("angularViewsHTMLToJS", function(){
-  return gulp.src([
-    "./app/public/angular-views/**/*.html"
-  ])
-  .pipe(minifyHtml({
-    empty: true,
-    spare: true,
-    quotes: true
-  }))
-  .pipe(ngHtml2Js({
-    moduleName: "componentsAndViewsHTMLToJS",
-    prefix: "/public/angular-views/"
-  }))
-  .pipe(concat("views.js"))
-  .pipe(gulp.dest("./app/public/javascripts-min/angular-components-views-htmlToJS"));
-});
-
-/**
- * Start and stop server
- */
-gulp.task('server', function() {
-  if (node) node.kill();
-  node = spawn('node', ['app/bin/www'], {
-    stdio: 'inherit'
-  });
-  setTimeout(function(){
-    browserSync.reload();
-  }, 1000);
-});
-
-/**
- * Sass Compilation [dev]
- */
-gulp.task('sassCompile-dev', shell.task([
-  "bundle exec sass --update app/sass:app/public/stylesheets"
-]));
-
-/**
- * Sass Compilation [prod]
- */
-gulp.task('sassCompile-prod', shell.task([
-  "bundle exec sass --update --force app/sass:app/public/stylesheets --style compressed"
-]));
-
-/**
- * Uglify Task
- */
-gulp.task('uglify', [], function(){
-  return gulp.src([
-      "./app/public/**/*.js",
-      "!./app/public/javascripts-min/" + "/**/*",
-      "!./app/public/vendor/**/*"
-    ])
-    .pipe(gulpif(!devEnvironment, uglify({
-      mangle: false
-    })))
-    .pipe(gulp.dest("./app/public/javascripts-min/"));
-});
-
-/**
- * Concat all angular-components into one single file
- */
-gulp.task('concatAllAngularComponents', [], function(){
-  var files = [];
-  walk.walkSync("./app/public/angular-components/", {
-    listeners: {
-      names: function (root, nodeNamesArray) {
-        nodeNamesArray.sort(function (a, b) {
-          if (a > b) return -1;
-          if (a < b) return 1;
-          return 0;
-        });
-      },
-      directories: function (root, dirStatsArray, next) {
-        next();
-      },
-      file: function (root, stat, next) {
-        if(stat.name.indexOf(".js") < 0) return next();
-        files.push(root + '/' + stat.name);
-      },
-      errors: function (root, nodeStatsArray, next) {
-        next();
-      }
-    }
-  });
-  gulp.src(files)
-    .pipe(concat('angular-components-all.js'))
-    .pipe(gulpif(!devEnvironment, uglify({
-      mangle: false
-    })))
-    .pipe(gulp.dest("./app/public/javascripts-min/angular-components"));
-});
-
-/**
- * Concat Packages (these should be minified files, let Uglify finish first)
- */
-gulp.task('concatPackages', [
-  "uglify"
-], function(){
-  var package_prefix = "package-";
-  var packages = {
-    "index-app": [
-      "./app/public/vendor/angularjs/angular.min.js",
-      "./app/public/vendor/angular-route/angular-route.min.js",
-      "./app/public/vendor/angular-local-storage/angular-local-storage.min.js",
-      "./app/public/javascripts-min/angular-components/angular-components-all.js",
-      "./app/public/javascripts-min/angular-components-views-htmlToJS/all.js",
-      "./app/public/javascripts-min/angular-views/index/index-controller.js",
-      "./app/public/javascripts-min/angular-views/dashboard/dashboard-controller.js",
-      "./app/public/javascripts-min/angular-apps/index-app.js"
-    ]
-  };
-  var fileName = "";
-  Object.keys(packages).forEach(function(key) {
-    fileName = package_prefix + key + ".js";
-    gulp.src(packages[key])
-      .pipe(concat(fileName))
-      .pipe(gulp.dest("./app/public/javascripts-min/packages/"));
-  });
-});
-
-/**
- * Watch for file changes
- */
-gulp.task('watch', function() {
-  gulp.watch([
-    "./app/public/**/*",
-    "!./app/public/vendor/**/*",
-    "!./app/public/javascripts-min/**/*"
-  ], ['uglify', 'concatAllAngularComponents', 'concatPackages']);
-  gulp.watch([
-    "./app/public/angular-components/**/*.html",
-    "./app/public/angular-views/**/*.html"
-  ], ['combineAngularViewsAndComponentsHTMLToJS']);
-  gulp.watch([
-    "./app/sass/**/*.sass",
-    "./app/public/angular-components/**/*.sass",
-  ], ['sassCompile-dev']);
-  gulp.watch([
-    "./app/views/**/*",
-    "./app/routes/**/*"
-  ], ['server']);
-});
-
-/**
- * Setup development environment
- */
-gulp.task('setupDevEnvironment', function() {
+gulp.task("dev", function () {
+  var deferred = Q.defer();
   devEnvironment = true;
+  eventEmitter.prototype._maxListeners = 100;
+  cleanAppJS()
+    .then(cleanCSS)
+    .then(createAppJS)
+    .then(createContentCSS)
+    .then(createAppCSS)
+    .then(function() {
+      startServer();
+      startBrowserSync();
+      watch();
+    });
+  return deferred.promise;
 });
 
-// ========================================
-// Gulp Runtime Config
-// ========================================
+// ====================================
+// Helpers
+// ====================================
 
-/**
- * Default (Production ready)
- */
-gulp.task('prod', [
-  'uglify',
-  'concatAllAngularComponents',
-  'combineAngularViewsAndComponentsHTMLToJS',
-  'concatPackages',
-  'sassCompile-prod',
-  'server-prod'
-]);
+function helpers_logStart(name) {
+  return gulpUtil.log(gulpUtil.colors.green("Started: " + name));
+}
 
-/**
- * Development task will watch files, automatically refresh, and more
- */
-gulp.task('default', [
-  'setupDevEnvironment',
-  'server',
-  'browserSync',
-  'uglify',
-  'concatAllAngularComponents',
-  'combineAngularViewsAndComponentsHTMLToJS',
-  'concatPackages',
-  'sassCompile-dev',
-  'watch'
-]);
+function helpers_logEnd(name) {
+  return gulpUtil.log(gulpUtil.colors.blue("(completed) - " + name));
+}
+
+function helpers_logError(err) {
+  return gulpUtil.log(gulpUtil.colors.red(err));
+}
+
+function helpers_showError(msg){
+  gulpUtil.log(gulpUtil.colors.red(msg));
+}
+
+function helpers_getAppNames() {
+  var apps = [];
+  var files = fs.readdirSync("./app/public/angular_apps");
+  _.forEach(files, function(file) {
+    file = file.replace("app_", "");
+    file = file.replace(".js", "");
+    apps.push(file);
+  });
+  return apps;
+}
+
+function executePromisesBasedOnEnvironment(promiseQueue, callback) {
+  var qArray = [];
+
+  // Blitz if we are in dev
+  if (devEnvironment) {
+    _.forEach(promiseQueue, function(promise) {
+      qArray.push(promise());
+    });
+    Q.all(qArray).then(function() {
+      return callback.call();
+    });
+
+  // One at a time for normal people
+  } else {
+    sequentiallyExecutePromiseQueue(promiseQueue, 0, function() {
+      return callback.call();
+    });
+  }
+}
+
+function sequentiallyExecutePromiseQueue(promiseQueue, index, callback) {
+  if (index >= promiseQueue.length) {
+    return callback.call();
+  }
+  promiseQueue[index]()
+    .then(function() {
+      sequentiallyExecutePromiseQueue(promiseQueue, index+1, callback);
+    });
+}
+
+// ====================================
+// Routines
+// ====================================
+
+function browserifyApps() {
+  var deferred = Q.defer();
+  var apps = helpers_getAppNames();
+  var promiseQueue = [];
+  helpers_logStart("Browserify Apps.");
+  _.forEach(apps, function(app) {
+    promiseQueue.push(function() {
+      var deferred = Q.defer();
+      gulp
+        .src('./app/public/angular_apps/' + app + '/' + app + '.js')
+        .pipe(plumber(function(err){
+          helpers_showError(err);
+          return deferred.resolve();
+        }))
+        .pipe(browserify({
+          insertGlobals : false,
+          debug: false
+        }))
+        .pipe((gulpif(!devEnvironment, uglify({
+          mangle: false
+        }))))
+        .pipe(gulp.dest('./app/public/javascripts-min/apps/'))
+        .on('end', function() {
+          return deferred.resolve();
+        });
+      return deferred.promise;
+    });
+  });
+
+  executePromisesBasedOnEnvironment(promiseQueue, function() {
+    helpers_logEnd("Browserify Apps.");
+    return deferred.resolve();
+  });
+
+  return deferred.promise;
+}
+
+function cleanCSS(){
+  var deferred = Q.defer();
+  helpers_logStart("Clean CSS");
+  del.sync(["./app/public/stylesheets/"], {
+    force: true
+  });
+  helpers_logEnd("Clean CSS");
+  deferred.resolve();
+  return deferred.promise;
+}
+
+function cleanAppJS(){
+  var deferred = Q.defer();
+  helpers_logStart("Clean App JS");
+  del.sync(["./app/public/javascripts-min/"], {
+    force: true
+  });
+  helpers_logEnd("Clean App JS");
+  deferred.resolve();
+  return deferred.promise;
+}
+
+function createAppCSS() {
+  var deferred = Q.defer();
+  var promiseQueue = [];
+  var folders = [];
+  var appNames = helpers_getAppNames();
+  helpers_logStart("Create Application CSS Files");
+
+  // Walk through the angular app folders and compile the SCSS stuffs
+  _.forEach(appNames, function(app) {
+    promiseQueue.push(function() {
+      var deferred = Q.defer();
+      gulp.src("./app/public/angular_apps/" + app + "/*.scss")
+      .pipe(plumber(function(err){
+        helpers_logError(err);
+        return deferred.resolve();
+      }))
+      .pipe(gulpif(devEnvironment, sourcemaps.init()))
+      .pipe(sass({
+        onError: function(err) {
+          return gulpUtil.log(gulpUtil.colors.red(err));
+        }
+      }))
+      .pipe(gulpif(devEnvironment, sourcemaps.write()))
+      .pipe(gulpif(!devEnvironment, minifyCSS({keepBreaks: false})))
+      .pipe(gulp.dest("./app/public/stylesheets/apps/" + app + "/"))
+      .on("end", function() {
+        return deferred.resolve();
+      });
+      return deferred.promise;
+    });
+  });
+
+  executePromisesBasedOnEnvironment(promiseQueue, function() {
+    helpers_logEnd("Browserify Angular Apps.");
+    return deferred.resolve();
+  });
+
+  return deferred.promise;
+}
+
+function createContentCSS() {
+  var deferred = Q.defer();
+  helpers_logStart("Create CSS");
+  gulp.src("./app/public/sass/**/*.scss")
+  .pipe(plumber(function(err){
+    helpers_logError(err);
+    return deferred.resolve();
+  }))
+  .pipe(gulpif(devEnvironment, sourcemaps.init()))
+  .pipe(sass({
+    onError: function(err) {
+      return gulpUtil.log(gulpUtil.colors.red(err));
+    }
+  }))
+  .pipe(gulpif(devEnvironment, sourcemaps.write()))
+  .pipe(gulpif(!devEnvironment, minifyCSS({keepBreaks: false})))
+  .pipe(gulp.dest("./app/public/stylesheets"))
+  .on("end", function() {
+    helpers_logEnd("Successfully Created CSS");
+    return deferred.resolve();
+  });
+  return deferred.promise;
+}
+
+function createAppJS() {
+  var deferred = Q.defer();
+  convertHTMLTemplatesToJS()
+    .then(browserifyApps)
+    .then(minifyCommonJS)
+    .then(concatPackages)
+    .then(deferred.resolve);
+  return deferred.promise;
+}
+
+function concatPackages() {
+  helpers_logStart("Concat Packages");
+  var deferred = Q.defer();
+  var promiseQueue = [];
+  var fileName = "";
+  var package_prefix = "package-";
+
+  // If you are in dev, replace minified files with unminified files
+  if (devEnvironment) {
+    _.forEach(packages, function(packageFiles, packageFilesIndex) {
+      _.forEach(packageFiles, function(packageFile, packageFileIndex) {
+        if (fs.existsSync(packageFile.replace(".min.js", ".js"))) {
+          packages[packageFilesIndex][packageFileIndex] = packageFile.replace(".min.js", ".js");
+        }
+      });
+    });
+  }
+
+  Object.keys(packages).forEach(function (key) {
+    promiseQueue.push(function() {
+      var deferred = Q.defer();
+      fileName = package_prefix + key + ".js";
+      gulp.src(packages[key])
+        .pipe(plumber(function(err){
+          helpers_showError(err);
+          return deferred.resolve();
+        }))
+        .pipe(concat(fileName))
+        .pipe(gulp.dest("./app/public/javascripts-min/packages/"))
+        .on('end', deferred.resolve);
+      return deferred.promise;
+    });
+  });
+
+  executePromisesBasedOnEnvironment(promiseQueue, function() {
+    helpers_logEnd("Concat Packages");
+    return deferred.resolve();
+  });
+
+  return deferred.promise;
+}
+
+function convertHTMLTemplatesToJS() {
+  helpers_logStart("convertHTMLTemplatesToJS");
+  var deferred = Q.defer();
+  var promise;
+  var promiseQueue = [];
+  _.forEach(angularFolders, function(templateFolder) {
+    promiseQueue.push(function() {
+      var deferred = Q.defer();
+      gulp
+        .src("./app/public/" + templateFolder + "/**/*.html")
+        .pipe(plumber(function(err){
+          helpers_showError(err);
+          return deferred.resolve();
+        }))
+        .pipe(minifyHtml({
+          empty: true,
+          spare: true,
+          quotes: true
+        }))
+        .pipe(ngHtml2Js({
+          moduleName: "angularTemplates2JS",
+          prefix: "/public/" + templateFolder + "/"
+        }))
+        .pipe((gulpif(!devEnvironment, uglify({
+          mangle: false
+        }))))
+        .pipe(gulp.dest("./app/public/javascripts-min/templates/" + templateFolder))
+        .on('end', deferred.resolve);
+      return deferred.promise;
+    });
+  });
+
+  executePromisesBasedOnEnvironment(promiseQueue, function() {
+    helpers_logEnd("convertHTMLTemplatesToJS");
+    return deferred.resolve();
+  });
+
+  return deferred.promise;
+}
+
+function minifyCommonJS() {
+  var deferred = Q.defer();
+  helpers_logStart("Minify CommonJS");
+  gulp
+    .src('./app/public/commonJS/*.js')
+    .pipe(plumber(function(err){
+      helpers_showError(err);
+      return deferred.resolve();
+    }))
+    .pipe((gulpif(!devEnvironment, uglify({
+      mangle: false
+    }))))
+    .pipe(gulp.dest('./app/public/javascripts-min/commonJS/'))
+    .on('end', function() {
+      helpers_logEnd("Minify CommonJS");
+      return deferred.resolve();
+    });
+  return deferred.promise;
+}
+
+function startBrowserSync() {
+  helpers_logStart("Starting BrowserSync.");
+  var deferred = Q.defer();
+  browserSync.init([], browserSyncConfig);
+  deferred.resolve();
+  return deferred.promise;
+}
+
+function startServer() {
+  helpers_logStart("Starting Server.");
+  var deferred = Q.defer();
+  deferred.resolve();
+  shell.task([
+    "PORT=" + port + " nodemon --watch app/views --watch app/routes --watch app/app.js app/bin/www"
+  ], {
+    "ignoreErrors": true
+  })();
+  return deferred.promise;
+}
+
+function watch() {
+  helpers_logStart("Started watching for changes...");
+
+  // Watch content changes
+  gulpWatch([
+    "app/views/**/*"
+  ], function() {
+    browserSync.reload();
+  });
+
+  // Watch common JS changes
+  gulpWatch([
+    "app/public/commonJS/*.js"
+  ], function() {
+    minifyCommonJS()
+      .then(concatPackages);
+  });
+
+  // Watch APP JS changes
+  gulpWatch([
+    "app/public/angular_apps/**/*",
+    "app/public/angular_components/**/*",
+    "app/public/angular_views/**/*",
+    "app/public/angular_layouts/**/*",
+    "!app/public/**/*.scss",
+    "!app/public/**/*.spec.js"
+  ], function () {
+    createAppJS();
+  });
+
+  // Watch public folder changes
+  gulpWatch([
+    "app/public/images/**/*",
+    "app/public/javascripts-min/**/*",
+    "app/public/mocks/**/*"
+  ], function() {
+    browserSync.reload();
+  });
+
+  // Watch for Content SASS changes
+  gulpWatch([
+    "app/public/sass/**/*.scss"
+  ], function() {
+    createContentCSS();
+  });
+
+  // Watch for App SASS changes
+  gulpWatch([
+    "app/public/angular_apps/**/*.scss",
+    "app/public/angular_components/**/*.scss",
+    "app/public/angular_layouts/**/*.scss",
+    "app/public/angular_views/**/*.scss"
+  ], function() {
+    createAppCSS();
+  });
+
+}

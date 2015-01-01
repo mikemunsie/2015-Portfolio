@@ -1,0 +1,19 @@
+{>"layouts/blog/blog"/}
+{<title}Date Helpers{/title}
+{<date}11/15/2012{/date}
+{<content}
+
+<p>Lately I&#39;ve been writing a lot of functionality that involves using the JavaScript Date Object. In one of the more recent projects I needed to pass a start and end date to hand me back a set of schedules; however the start and date wasn&#39;t as simple as picking two dates and going from there - I had to figure out the week&#39;s start day (sunday at midnight) and the end day (saturday 11:59:59) from the week chosen. This meant if I picked November 17, 2012 then the start Date would be November 11 and the end date would be November 17.</p>
+
+<p>So that got me thinking and I wrote a routine to make my life a bit simpler when coming to situations like this, and it also might help in future projects where I need to get last tuesday&#39;s set of information. Check out how simple this is:</p>
+
+<pre class="brush:js">
+startDate = getRelativeDate(&quot;sun&quot;); // This week&#39;s Sunday
+endDate = getRelativeDate(&quot;sat&quot;, 2, &quot;11:59:59 PM&quot;); // Next week&#39;s Saturday
+</pre>
+
+<p>Not too bad eh? I find it pretty nifty!</p>
+
+<p><a href="https://github.com/mikemunsie/Date-Helpers" target="_blank">https://github.com/mikemunsie/Date-Helpers</a></p>
+
+{/content}

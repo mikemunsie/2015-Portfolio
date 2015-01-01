@@ -1,0 +1,38 @@
+{>"layouts/blog/blog"/}
+{<title}Battling the Single Page Application.{/title}
+{<date}11/01/2011{/date}
+{<content}
+<p>I have been striving to create some structure in the world of developing single page applications using JQuery, PHP, and MySQL. What I have come to the realization is seeing this in my editor:</p>
+
+<p>&quot;documents.js&quot; | &quot;documents.js&quot; |&nbsp;&quot;documents.php&quot; | &quot;documents.php&quot; | &quot;documents.php&quot;</p>
+
+<p>I&#39;m not sure how I feel about this haha, but for my structure it makes sense. Lets dive into the craziness.</p>
+
+<p>1. &quot;templates/documents.js&quot; is the BackboneJS View for my documents JQuery template. This supports the logic that goes into the template.</p>
+
+<p>2. &quot;models/documents.js&quot; is the BackboneJS Model used for documents (which basically for me is a collection of functions that call to the controller and recieve data - for now just a bunch of ajax routines with callbacks).</p>
+
+<p>3. &quot;ajax_controllers/documents.php&quot; is the PHP MVC controller that is used to handle Ajax Based events for the documents.</p>
+
+<p>4. &quot;templates/documents.php&quot; is a collection of templates and elements used for the documents view. I structure them like this:</p>
+
+<p>&lt;script class=&quot;view&quot; type=&quot;text/x-jquery-tmpl&quot; view=&quot;documents&quot;&gt;&lt;/script&gt;</p>
+
+<p>&lt;script class=&quot;manage&quot; type=&quot;text/x-jquery-tmpl&quot; view=&quot;documents&quot;&gt;&lt;/script&gt;</p>
+
+<p>&lt;script class=&quot;edit&quot; type=&quot;text/x-jquery-tmpl&quot; view=&quot;documents&quot;&gt;&lt;/script&gt;</p>
+
+<p>You see, I have three different templates, but you can tell which view it belongs to by using the &quot;view&quot; attribute I made up. The class simple tells me what the template is used for.</p>
+
+<p>5. &quot;models/documents.php&quot; is my PHP MVC model used for Documents. It of course contains all the queries and magic.</p>
+
+<p>Now let alone I could make this even worse by saying I have a PHP MVC view called &quot;documents&quot; that belongs in &quot;views/documents.php&quot; - but it&#39;s already bad enough lol.</p>
+
+<p>I thought logically this would be easier to see the structure of everything and easily adjust or change things knowing exactly where everything is; however, i&#39;m slightly debating on two things: 1. Change my programming editor, or 2. change the names of the files to something readable so I know which is which.</p>
+
+<p>Ex:</p>
+
+<p>&quot;view_documents.js&quot;&nbsp;|&nbsp;&quot;model_documents.js&quot;&nbsp;|&nbsp;&quot;template_documents.php&quot;&nbsp;|&nbsp;&quot;model_documents.php&quot;&nbsp;|&nbsp;&quot;ajaxcontroller_documents.php&quot;</p>
+
+<p>It&#39;s a debate, I am going to explore both of my options. I am not bound by a set of rules that I have to use, but I would like it to make sense though - at least to me. Time to explore!</p>
+{/content}

@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html>
+  {>"layouts/default/head" /}
+  <body class="layouts-default">
+    {+content/}
+  </body>
+</html>

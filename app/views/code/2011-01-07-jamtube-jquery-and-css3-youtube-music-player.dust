@@ -1,0 +1,11 @@
+{>"layouts/blog/blog"/}
+{<title}JamTube! JQuery and CSS3 Youtube Music Player{/title}
+{<date}01/07/2011{/date}
+{<content}
+<p>JamTube is now ready and rockin&#39;! The idea is simple: I wanted to create a way to generate a youtube playlist while I browsed or surfed the web. Since I was using Linux based computer with no ITunes, I would always go from one video to another on YouTube just listening to tracks. Now, although I could have created a music playlist on YouTube itself, I was too lazy... but then I came across the wild idea of why not share this playlist on my site?</p>
+
+<p>One thing lead to another and soon I was on my way to creating little animations and playlists that could be shared via facebook. It&#39;s a fun idea, and you can actually see it working right now on this blog. Just another fun coding project :)</p>
+
+<p>Updated: <a href="http://munstrocity.com:9001">http://munstrocity.com:9001</a></p>
+
+{/content}

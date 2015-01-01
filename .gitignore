@@ -1,8 +1,4 @@
 node_modules
 .sass-cache/
-.bundle/
-./scripts
-app/public/javascripts-min/
 app/public/stylesheets/
-app/public/vendor/
-Gemfile.lock
+app/public/javascripts-min/

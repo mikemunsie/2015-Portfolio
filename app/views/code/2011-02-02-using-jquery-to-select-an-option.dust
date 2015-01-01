@@ -1,0 +1,10 @@
+{>"layouts/blog/blog"/}
+{<title}Using JQuery to select an option{/title}
+{<date}02/02/2011{/date}
+{<content}
+<p>For very long I have used a routine in which involves a for-loop and going through every element&#39;s value and then selecting the option that matches the value specified. How about we scratch that. How about we make all of this one line of code? 
+<pre class="brush:js">
+  $(&#39;select[name=SELECTNAME] option[value=VALUE&#39;).attr(&quot;selected&quot;, true);
+</pre>
+Enjoy! :D</p>
+{/content}
