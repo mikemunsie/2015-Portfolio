@@ -78,7 +78,7 @@ gulp.task('prod', function() {
     .then(function() {
       shell.task([
         "forever stop munstrocity.com",
-        "PORT=8080 forever --uid munstrocity.com start app/bin/www"
+        "sudo PORT=80 forever --uid munstrocity.com start app/bin/www"
       ], {
         ignoreErrors: true
       })();

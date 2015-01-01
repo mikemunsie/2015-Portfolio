@@ -2,49 +2,49 @@
 
 .image {
   &.logo {
-    background: url("../images/logo.png");
+    background: url("../images/logo.png") transparent;
     width: 160px;
     height: 40px;
     display: block;
     background-repeat: none;
   }
   &.twitter {
-    background: url("../images/twitter.png");
+    background: url("../images/twitter.png") transparent;
     width: 26px;
     height: 20px;
     display: block;
     background-repeat: none;
   }
   &.linkedin {
-    background: url("../images/linkedin.png");
+    background: url("../images/linkedin.png") transparent;
     width: 25px;
     height: 25px;
     display: block;
     background-repeat: none;
   }
   &.youtube {
-    background: url("../images/youtube.png");
+    background: url("../images/youtube.png") transparent;
     width: 25px;
     height: 25px;
     display: block;
     background-repeat: none;
   }
   &.facebook {
-    background: url("../images/facebook.png");
+    background: url("../images/facebook.png") transparent;
     width: 25px;
     height: 25px;
     display: block;
     background-repeat: none;
   }
   &.google {
-    background: url("../images/google.png");
+    background: url("../images/google.png") transparent;
     width: 25px;
     height: 25px;
     display: block;
     background-repeat: none;
   }
   &.github {
-    background: url("../images/github.png");
+    background: url("../images/github.png") transparent;
     width: 25px;
     height: 25px;
     display: block;
