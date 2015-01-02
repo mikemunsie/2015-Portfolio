@@ -9,7 +9,7 @@
   <meta property="og:description" content="{preview}">
   <meta property="og:title" content="Munstrocity: {title}" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="http://munstrocity.com/public/images/launcher-icon-4x.png" />
+  <meta property="og:image" content="http://munstrocity.com/public/images/fb-share.png" />
   <meta property="og:site_name" content="The Portfolio of Michael Munsie" />  
   <link rel="manifest" href="public/manifest.json" />
   <title>Munstrocity: {title}</title>
