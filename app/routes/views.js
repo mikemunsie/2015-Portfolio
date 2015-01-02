@@ -84,8 +84,10 @@ function renderBlog(req, res) {
   res.render(getPostFileName(req), {
     url: req.params.url,
     bg: req.params.bg,
+    title: req.params.title,
     category: req.params.category,
     permLink: getPermLink(req),
+    preview: req.params.preview,
     nextArticle: getNextArticle(req),
     articles: postArticles[req.params.category]
   });
@@ -213,7 +215,8 @@ function stripHTML(content) {
  * @return content
  */
 function truncate(content, maxWords) {
-  content = content.replace(/\r?\n|\r/g, "");
+  content = content.replace(/\r?\n|\r|\n/g, "");
+  content = content.replace(/\s\s/g, "");
   content = content.replace(/&nbsp;/g, "");
   content = content.split(" ").splice(0,maxWords).join(" ") + "...";
   return content;
