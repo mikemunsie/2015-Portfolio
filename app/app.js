@@ -36,13 +36,18 @@ app.use('/', routes_views);
 // 404 page
 app.use(function(req, res, next) {
   res.status(404);
-  res.render('404');
+  res.render('404', {
+    title: "404",
+    preview: "This is a 404 page."
+  });
 });
 
 // 500 errors
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
+    title: 500,
+    preview: "Well something happened.",
     message: err.message
   });
 });

@@ -63,7 +63,10 @@ router.get('/projects', function(req, res) {
 router.get('/:category/:year/:month/:day/:article', function(req, res) {
   req.params = _.find(postArticles[req.params.category], req.params);
   if (!req.params) {
-    res.render('404');
+    res.render('404', {
+      title: "404",
+      preview: "This is a 404 page"
+    });
     return;
   }
   renderBlog(req, res);
@@ -80,7 +83,6 @@ router.get('/:category/:year/:month/:day/:article', function(req, res) {
  * @return void
  */
 function renderBlog(req, res) {
-  console.log(req.params);
   res.render(getPostFileName(req), {
     url: req.params.url,
     bg: req.params.bg,
@@ -89,6 +91,7 @@ function renderBlog(req, res) {
     permLink: getPermLink(req),
     preview: req.params.preview,
     nextArticle: getNextArticle(req),
+    strippedContent: req.params.strippedContent,
     articles: postArticles[req.params.category]
   });
 }
@@ -134,13 +137,11 @@ function getCategoryArticles(category) {
         var contents = fs.readFileSync(file, 'utf-8');
         var blog_title = contents.match("{<title}(.*?){\/title}")[1];
         var blog_date = contents.match("{<date}(.*?){\/date}")[1];
-        var blog_preview = contents.substring(contents.indexOf("{<content}")+10, contents.indexOf("{/content}"));
+        var blog_preview = stripHTML(contents.substring(contents.indexOf("{<content}")+10, contents.indexOf("{/content}")));
         bgCounter++;
         if (bgCounter >= post_bgs.length) {
           bgCounter = 0;
         }
-        blog_preview = stripHTML(blog_preview);
-        blog_preview = truncate(blog_preview, 30);
         files.push({
           article: fileStats.name.match("[0-9][0-9][0-9][0-9].[0-9][0-9].[0-9][0-9].(.*)")[1].replace(".dust", ""),
           url: getPostURLFromFile(category, fileStats.name),
@@ -151,7 +152,8 @@ function getCategoryArticles(category) {
           month: blog_date.match("([0-9][0-9])/([0-9][0-9])/([0-9][0-9][0-9][0-9])")[1],
           day: blog_date.match("([0-9][0-9])/([0-9][0-9])/([0-9][0-9][0-9][0-9])")[2],
           year: blog_date.match("([0-9][0-9])/([0-9][0-9])/([0-9][0-9][0-9][0-9])")[3],
-          preview: blog_preview
+          preview: truncate(blog_preview, 30),
+          strippedContent: truncate(blog_preview, 30000)
         });
         next();
       },
@@ -204,8 +206,17 @@ function getPostURLFromFile(category, file) {
  * @return strippedHTML
  */
 function stripHTML(content) {
-  var regex = /(<([^>]+)>)/ig;
-  return content.replace(regex, "");
+
+  // Strip out all H# tags
+  content = content.replace(/<h[0-9]>.*<\/h[0-9]>/ig, "");
+  
+  // Remove everything else
+  content = content.replace(/(<([^>]+)>)/ig, "");
+
+  // Safe quote the shiz
+  content = content.replace(/"/ig, "&quot;");
+
+  return content;
 }
 
 /**

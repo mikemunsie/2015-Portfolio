@@ -5,7 +5,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />  
   <meta name="apple-mobile-web-app-title" content="{+title/}" />
   <meta name="keywords" content="michael munsie munstrocity front end engineer nodejs cats tetris" />
-  <meta name="description" content="{preview}" />
+  <meta name="description" content="{strippedContent}" />
   <meta property="og:description" content="{preview}">
   <meta property="og:title" content="Munstrocity: {title}" />
   <meta property="og:type" content="website" />
