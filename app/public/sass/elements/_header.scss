@@ -20,6 +20,7 @@
       margin-right: $pad * 3;
       font-size: 18px;
       border-top: 5px solid transparent;
+      text-align: center;
       @include animate(popDown, 0.3s, 0s);
       &.last {
         margin-right: 0;
@@ -66,7 +67,10 @@
     .nav {
       a {
         margin-right: 15px;
+        text-align: center;
         font-size: 16px;
+        width: 75px;
+        padding-right: 0;
       }
     }
   }
