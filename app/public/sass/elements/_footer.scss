@@ -1,7 +1,6 @@
 @import "../config";
 
 .footer {
-  background: $header-color;
   color: white;
   clear: both;
   margin-top: 30px;
@@ -11,6 +10,7 @@
   position: relative;
   @include helpers-group;
   .container {
+    border-top: 3px solid $header-color;
     padding-top: 30px;
   }
   .copyright {
@@ -19,7 +19,7 @@
   .email {
     float: right;
     a {
-      color: lighten($link-color, 20);
+      color: $link-color;
     }
   }
 }

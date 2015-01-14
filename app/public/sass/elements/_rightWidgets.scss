@@ -9,10 +9,8 @@
     position: relative;
     padding: $pad;
     background: rgba($header-color, .95);
-    color: #eee;
     font-weight: 500;
-    border: 1px solid black;
-    box-shadow: 0 0 3px #24172b;
+    border: 1px solid darken($header-color, 10);
     select {
       width: 100%;
       padding: 7.5px;
@@ -63,7 +61,7 @@
       float: left;
       width: 100px;
       border-radius: 50%;
-      border: 1px solid #541d4b;
+      border: 1px solid #000;
     }
     .info {
       float: left;
@@ -71,7 +69,6 @@
       padding-top: $pad;
       span, strong {
         display: block;
-        color: #424242;
         font-size: 14px;
         line-height: 18px;
       }
@@ -89,7 +86,7 @@
       float: left;
       margin-right: $pad;
       font-size: 30px;
-      color: #666;
+      color: #aaa;
       display: block;
       &.last {
         margin-right: 0;

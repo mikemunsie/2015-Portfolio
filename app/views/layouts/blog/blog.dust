@@ -22,6 +22,7 @@ Husband, Front End Engineer, Musician, Writer, Tetris Fanatic.
     <div class="postTemplate" ng-controller="PostController">
       <div class="hero">
         <div class="bg" style="background-image: url('{bg}')"></div>
+        <div class="overlay"></div>
         <div class="container">
           <div class="title">
             <h1>{+title/}</h1>
@@ -39,7 +40,6 @@ Husband, Front End Engineer, Musician, Writer, Tetris Fanatic.
           </select>
           <div ng-show="nextPost()">
             <strong>Next up on {category}:</strong>
-            <div class="title">{nextArticle.title}</div>
             <div class="desc">
               <div class="previewText" ng-show="postType != 'photography'">
                 {nextArticle.preview|s}
