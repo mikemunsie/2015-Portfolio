@@ -21,9 +21,7 @@ var post_bgs = [
   "/public/images/bg_7.jpg",
   "/public/images/bg_8.jpg",
   "/public/images/bg_9.jpg",
-  "/public/images/bg_10.jpg",
-  "/public/images/bg_11.jpg",
-  "/public/images/bg_12.jpg"
+  "/public/images/bg_10.jpg"
 ];
 
 var postArticles = {

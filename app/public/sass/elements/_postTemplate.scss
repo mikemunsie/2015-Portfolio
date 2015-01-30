@@ -22,7 +22,7 @@
       height: 100%;
       background-size: cover;
       background-position: center;
-      -webkit-filter: blur(3px);
+      -webkit-filter: blur(1px);
       @include helpers-opacity(0.5);
     }
     .overlay {
@@ -77,6 +77,37 @@
         line-height: 25px;
         font-size: 16px;
       }
+    }
+  }
+}
+
+@include respond-at(1100px, false) {
+  .postTemplate {
+    .hero {
+      min-height: 300px;
+      .title {
+        h1 {
+          font-size: 60px;
+        }
+        h2 {
+          font-size: 40px;
+        }
+        a {
+          font-size: 25px;
+        }
+      }
+    }
+    .entry {
+      .templateContent {
+        p {
+          margin-bottom: 15px;
+          line-height: 35px;
+          font-size: 20px;
+        }
+      }
+    }
+    .syntaxhighlighter table td {
+      font-size: 20px !important;
     }
   }
 }
