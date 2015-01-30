@@ -81,7 +81,7 @@
   }
 }
 
-@include respond-at(1100px, false) {
+@include respond-at(1190px, false) {
   .postTemplate {
     .hero {
       min-height: 300px;
