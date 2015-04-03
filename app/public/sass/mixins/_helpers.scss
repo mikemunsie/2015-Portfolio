@@ -48,7 +48,7 @@
 }
 
 @mixin helpers-container {
-  width: $container;
+  max-width: $container;
   margin: auto;
   position: relative;
   padding: 0 $pad*2;

@@ -31,42 +31,42 @@ Husband, Front End Engineer, Musician, Writer, Tetris Fanatic.
           </div>
         </div>
       </div>
-      <div class="rightWidgets">
-        <div class="nextPost">
-          <select value="{url}">
-            {#articles parentURL=url}
-              <option {@if cond="'{parentURL}' === '{url}'"}selected{/if} value="{url}">{title}</option>
-            {/articles}
-          </select>
-          <div ng-show="nextPost()">
-            <strong>Next up on {category}:</strong>
-            <div class="desc">
-              <div class="previewText" ng-show="postType != 'photography'">
-                {nextArticle.preview|s}
+      <div class="container">
+        <div class="rightWidgets">
+          <div class="nextPost">
+            <select value="{url}">
+              {#articles parentURL=url}
+                <option {@if cond="'{parentURL}' === '{url}'"}selected{/if} value="{url}">{title}</option>
+              {/articles}
+            </select>
+            <div ng-show="nextPost()">
+              <strong>Next up on {category}:</strong>
+              <div class="desc">
+                <div class="previewText" ng-show="postType != 'photography'">
+                  {nextArticle.preview|s}
+                </div>
               </div>
+              <a class="button red" href="{nextArticle.url}">Read Now</a>
             </div>
-            <a class="button red" href="{nextArticle.url}">Read Now</a>
+          </div>
+          <div class="aboutMe">
+            <img src="https://pbs.twimg.com/profile_images/573346852189290496/rsK3cfc8.jpeg" class="pic" />
+            <div class="info">
+              <strong>Michael Munsie</strong>
+              <span>Front End Engineer</span>
+              <span>Research Now</span>
+            </div>
+          </div>
+          <div class="social">
+            <a target="_blank" class="fa fa-github" href="http://github.com/mikemunsie"></a>
+            <a target="_blank" class="fa fa-linkedin" href="http://www.linkedin.com/in/michaelmunsie"></a>
+            <a target="_blank" class="fa fa-twitter" href="http://twitter.com/munstrocity"></a>
+            <a target="_blank" class="fa fa-soundcloud" href="http://soundcloud.com/webmastermunsie"></a>
+            <a target="_blank" class="fa fa-book" href="http://mikemunsie.gitbooks.io/introverts-guide-to-the-galaxy/"></a>
+            <a target="_blank" class="fa fa-youtube" href="http://youtube.com/munsiem"></a> 
           </div>
         </div>
-        <div class="aboutMe">
-          <img src="https://pbs.twimg.com/profile_images/378800000373085854/f5585ca729a44a640b16b4a9ec310edc.png" class="pic" />
-          <div class="info">
-            <strong>Michael Munsie</strong>
-            <span>Front End Engineer</span>
-            <span>Research Now</span>
-          </div>
-        </div>
-        <div class="social">
-          <a target="_blank" class="fa fa-github" href="http://github.com/mikemunsie"></a>
-          <a target="_blank" class="fa fa-linkedin" href="http://www.linkedin.com/in/michaelmunsie"></a>
-          <a target="_blank" class="fa fa-twitter" href="http://twitter.com/munstrocity"></a>
-          <a target="_blank" class="fa fa-soundcloud" href="http://soundcloud.com/webmastermunsie"></a>
-          <a target="_blank" class="fa fa-book" href="http://mikemunsie.gitbooks.io/introverts-guide-to-the-galaxy/"></a>
-          <a target="_blank" class="fa fa-youtube" href="http://youtube.com/munsiem"></a> 
-        </div>
-      </div>
-      <div class="entry">
-        <div class="container">
+        <div class="entry">
           <div class="templateContent">
             {+content/}
           </div>

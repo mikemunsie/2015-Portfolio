@@ -1,0 +1,17 @@
+{>"layouts/blog/blog"/}
+{<title}Self Typing CSS Sorcery{/title}
+{<date}04/02/2015{/date}
+{<content}
+  <p data-height="500" data-theme-id="0" data-slug-hash="mygGQZ" data-default-tab="result" data-user="mikemunsie" class='codepen'>See the Pen <a href='http://codepen.io/mikemunsie/pen/mygGQZ/'>mygGQZ</a> by Michael Munsie (<a href='http://codepen.io/mikemunsie'>@mikemunsie</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+  <p>
+    So this was pretty fun. I was shown this watch-me-build-this effect Codepen @ <a href="http://codepen.io/jakealbaugh/full/PwLXXP/">http://codepen.io/jakealbaugh/full/PwLXXP/</a> and I was blown away. I thought it was really cool, so I decided to dissect the code and recreate it myself.
+  </p>
+  <p>
+    It turns out the idea is not complicated at all. Basically you have a string that is the final output of the CSS, and then you slowly add the CSS string into a style element. Add a little interval to keep adding to the string and inject into the style element and you can simulate typing (there's no backspaces, so it's the most realistic simulator lol).
+  </p>
+  <p>
+    Love to experiment new things that I find interesting. Thanks <a href="https://twitter.com/krisgiamello">Kris Giamello</a> for showing me this!
+  </p>
+
+{/content}

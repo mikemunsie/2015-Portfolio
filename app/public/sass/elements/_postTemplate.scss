@@ -81,37 +81,6 @@
   }
 }
 
-@include respond-at(1190px, false) {
-  .postTemplate {
-    .hero {
-      min-height: 300px;
-      .title {
-        h1 {
-          font-size: 50px;
-        }
-        h2 {
-          font-size: 30px;
-        }
-        a {
-          font-size: 20px;
-        }
-      }
-    }
-    .entry {
-      .templateContent {
-        p {
-          margin-bottom: 15px;
-          line-height: 35px;
-          font-size: 20px;
-        }
-      }
-    }
-    .syntaxhighlighter table td {
-      font-size: 20px !important;
-    }
-  }
-}
-
 @include respond-at(false, 950px) {
   .postTemplate .entry .templateContent .text p {
     font-size: 15px;

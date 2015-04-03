@@ -21,6 +21,7 @@ $(function() {
   // Right widgets should stay in place as the browser moves
   $(window).on("scroll resize", function(e) {
     var t1, t2, top, width;
+    var rightWidgetsXPos;
     width = $(window).width();
     t1 = $("html").scrollTop();
     t2 = $("body").scrollTop();
@@ -30,9 +31,17 @@ $(function() {
       top = t2;
     }
     if (top > 80 && width >= 840) {
-      return $(".rightWidgets").addClass("fixed");
+      rightWidgetsXPos = $(".rightWidgets").offset().left;
+      $(".rightWidgets").addClass("fixed");
+      $(".rightWidgets").css({
+        left: rightWidgetsXPos
+      });
+
     } else {
-      return $(".rightWidgets").removeClass("fixed");
+      $(".rightWidgets").removeClass("fixed");
+      $(".rightWidgets").css({
+        left: "auto"
+      });
     }
   });
 
