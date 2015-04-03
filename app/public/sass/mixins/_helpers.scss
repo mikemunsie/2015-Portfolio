@@ -53,6 +53,9 @@
   position: relative;
   padding: 0 $pad*2;
   @include helpers-group;
+  @include respond-at(false, 1100px) {
+    max-width: 100%;
+  }
 }
 
 @mixin helpers-group {
