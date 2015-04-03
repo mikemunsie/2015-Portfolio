@@ -105,6 +105,13 @@ iframe {
 }
 
 @include respond-at(false, 485px) {
+  iframe {
+    display: none;
+  }
+  pre {
+    max-width: 100%;
+    overflow: hidden;
+  }
   .container {
     padding: 0 $pad / 2;
   }
