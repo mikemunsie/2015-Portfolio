@@ -2,3 +2,4 @@ node_modules
 .sass-cache/
 app/public/stylesheets/
 app/public/javascripts-min/
+.DS_STORE
