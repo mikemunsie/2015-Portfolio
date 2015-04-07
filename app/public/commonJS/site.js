@@ -6,6 +6,8 @@ $(function() {
   });
   SyntaxHighlighter.highlight();
 
+  $(".rightWidgets select option[value='" + location.pathname + "']").attr("selected", true);
+
   // Quick next page functionality with right and left arrow key
   $(window).on("keydown", function(e) {
     if (e.keyCode === 39) {
