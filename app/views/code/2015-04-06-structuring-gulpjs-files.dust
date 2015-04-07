@@ -1,6 +1,6 @@
 {>"layouts/blog/blog"/}
 {<title}Structuring GulpJS Files{/title}
-{<date}04/07/2015{/date}
+{<date}04/06/2015{/date}
 {<content}
   <p>
     So it's been about 10 months in since my transition from <a href="http://gruntjs.com/">Grunt</a> to <a href="http://gulpjs.com/">GulpJS</a>. Even crazier to think I haven't played around with front end build tools until a little over a year ago. I still remember the days where I would have coffeescript running in one tab, sass in another, and then have in one final tab a way to compress and uglify the scripts. It was all pretty much one big science experiment.
