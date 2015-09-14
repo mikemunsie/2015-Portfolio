@@ -44,13 +44,5 @@
     "renamer": "*",
     "seedrandom": "*",
     "walk": "*"
-  },
-  "devDependencies": {
-    "karma": "*",
-    "karma-chrome-launcher": "*",
-    "karma-jasmine": "*",
-    "karma-jasmine-jquery": "*",
-    "karma-coverage": "*",
-    "protractor": "*"
   }
 }
