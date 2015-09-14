@@ -4,7 +4,10 @@
 {<content}
 
   <iframe width="560" height="315" src="https://www.youtube.com/embed/-EV2ua8QPyo" frameborder="0" allowfullscreen></iframe>
-
+  
+  <p>
+    <a href="https://github.com/mikemunsie/minecraft-status" target="_blank">https://github.com/mikemunsie/minecraft-status</a>
+  </p>
   <p>
     In the last week, I purchased myself a Raspberry Pi to start hacking around with. I thought it would be fun to try something new and get into the IoT. For my first project, I wanted to build an indicator to let me know when my friends were playing Minecraft.
   </p>
