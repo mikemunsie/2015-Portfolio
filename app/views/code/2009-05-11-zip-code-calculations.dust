@@ -1,7 +1,9 @@
 {>"layouts/blog/blog"/}
+{<category}code{/category}
 {<title}Zip Code Calculations{/title}
 {<date}05/11/2009{/date}
 {<content}
+
 
 <p>In today&#39;s programming session, I wanted to develop a technique in which you could calculate the distance between 2 zip codes using Longitude and Latitude. Here&#39;s the basic formula that I researched:</p>
 

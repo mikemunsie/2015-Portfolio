@@ -11,6 +11,7 @@
   }
   .hero {
     position: relative;
+    border: 1px solid #111;
     background: $header-color;
     min-height: 200px;
     padding-bottom: $pad * 2;
@@ -63,6 +64,9 @@
     margin-right: 350px;
     .templateContent {
       margin-top: $pad;
+       h1 {
+        font-size: 25px;
+      }
       img {
         max-width: 100%;
         border: 0 !important;
@@ -74,7 +78,7 @@
       }
       p {
         margin-bottom: $pad;
-        line-height: 25px;
+        line-height: 29px;
         font-size: 16px;
       }
     }

@@ -32,16 +32,9 @@ var devEnvironment = false;
 var fastDev = false;
 var port = 9003;
 
-var angularFolders = [
-  "angular_components",
-  "angular_layouts",
-  "angular_views"
-];
-
 var browserSyncConfig = {
   files: [
     "app/public/images/**/*",
-    "app/public/javascripts-min/apps/**/*.js",
     "app/public/javascripts-min/packages/**/*.js",
     "app/public/stylesheets/**/*.css",
     "app/public/mocks/**/*.json"
@@ -74,7 +67,6 @@ gulp.task('prod', function() {
     .then(cleanCSS)
     .then(createAppJS)
     .then(createContentCSS)
-    .then(createAppCSS)
     .then(function() {
       deferred.resolve();
     });
@@ -89,7 +81,6 @@ gulp.task("dev", function () {
     .then(cleanCSS)
     .then(createAppJS)
     .then(createContentCSS)
-    .then(createAppCSS)
     .then(function() {
       startServer();
       startBrowserSync();
@@ -116,17 +107,6 @@ function helpers_logError(err) {
 
 function helpers_showError(msg){
   gulpUtil.log(gulpUtil.colors.red(msg));
-}
-
-function helpers_getAppNames() {
-  var apps = [];
-  var files = fs.readdirSync("./app/public/angular_apps");
-  _.forEach(files, function(file) {
-    file = file.replace("app_", "");
-    file = file.replace(".js", "");
-    apps.push(file);
-  });
-  return apps;
 }
 
 function executePromisesBasedOnEnvironment(promiseQueue, callback) {
@@ -163,42 +143,6 @@ function sequentiallyExecutePromiseQueue(promiseQueue, index, callback) {
 // Routines
 // ====================================
 
-function browserifyApps() {
-  var deferred = Q.defer();
-  var apps = helpers_getAppNames();
-  var promiseQueue = [];
-  helpers_logStart("Browserify Apps.");
-  _.forEach(apps, function(app) {
-    promiseQueue.push(function() {
-      var deferred = Q.defer();
-      gulp
-        .src('./app/public/angular_apps/' + app + '/' + app + '.js')
-        .pipe(plumber(function(err){
-          helpers_showError(err);
-          return deferred.resolve();
-        }))
-        .pipe(browserify({
-          insertGlobals : false,
-          debug: false
-        }))
-        .pipe((gulpif(!devEnvironment, uglify({
-          mangle: false
-        }))))
-        .pipe(gulp.dest('./app/public/javascripts-min/apps/'))
-        .on('end', function() {
-          return deferred.resolve();
-        });
-      return deferred.promise;
-    });
-  });
-
-  executePromisesBasedOnEnvironment(promiseQueue, function() {
-    helpers_logEnd("Browserify Apps.");
-    return deferred.resolve();
-  });
-
-  return deferred.promise;
-}
 
 function cleanCSS(){
   var deferred = Q.defer();
@@ -222,58 +166,17 @@ function cleanAppJS(){
   return deferred.promise;
 }
 
-function createAppCSS() {
-  var deferred = Q.defer();
-  var promiseQueue = [];
-  var folders = [];
-  var appNames = helpers_getAppNames();
-  helpers_logStart("Create Application CSS Files");
-
-  // Walk through the angular app folders and compile the SCSS stuffs
-  _.forEach(appNames, function(app) {
-    promiseQueue.push(function() {
-      var deferred = Q.defer();
-      gulp.src("./app/public/angular_apps/" + app + "/*.scss")
-      .pipe(plumber(function(err){
-        helpers_logError(err);
-        return deferred.resolve();
-      }))
-      .pipe(gulpif(devEnvironment, sourcemaps.init()))
-      .pipe(sass({
-        onError: function(err) {
-          return gulpUtil.log(gulpUtil.colors.red(err));
-        }
-      }))
-      .pipe(gulpif(devEnvironment, sourcemaps.write()))
-      .pipe(gulpif(!devEnvironment, minifyCSS({keepBreaks: false})))
-      .pipe(gulp.dest("./app/public/stylesheets/apps/" + app + "/"))
-      .on("end", function() {
-        return deferred.resolve();
-      });
-      return deferred.promise;
-    });
-  });
-
-  executePromisesBasedOnEnvironment(promiseQueue, function() {
-    helpers_logEnd("Browserify Angular Apps.");
-    return deferred.resolve();
-  });
-
-  return deferred.promise;
-}
-
 function createContentCSS() {
   var deferred = Q.defer();
   helpers_logStart("Create CSS");
   gulp.src("./app/public/sass/**/*.scss")
   .pipe(plumber(function(err){
-    helpers_logError(err);
     return deferred.resolve();
   }))
   .pipe(gulpif(devEnvironment, sourcemaps.init()))
   .pipe(sass({
     onError: function(err) {
-      return gulpUtil.log(gulpUtil.colors.red(err));
+      return gulpUtil.log(gulpUtil.colors.red(err.message));
     }
   }))
   .pipe(gulpif(devEnvironment, sourcemaps.write()))
@@ -288,9 +191,7 @@ function createContentCSS() {
 
 function createAppJS() {
   var deferred = Q.defer();
-  convertHTMLTemplatesToJS()
-    .then(browserifyApps)
-    .then(minifyCommonJS)
+  minifyCommonJS()
     .then(concatPackages)
     .then(deferred.resolve);
   return deferred.promise;
@@ -332,46 +233,6 @@ function concatPackages() {
 
   executePromisesBasedOnEnvironment(promiseQueue, function() {
     helpers_logEnd("Concat Packages");
-    return deferred.resolve();
-  });
-
-  return deferred.promise;
-}
-
-function convertHTMLTemplatesToJS() {
-  helpers_logStart("convertHTMLTemplatesToJS");
-  var deferred = Q.defer();
-  var promise;
-  var promiseQueue = [];
-  _.forEach(angularFolders, function(templateFolder) {
-    promiseQueue.push(function() {
-      var deferred = Q.defer();
-      gulp
-        .src("./app/public/" + templateFolder + "/**/*.html")
-        .pipe(plumber(function(err){
-          helpers_showError(err);
-          return deferred.resolve();
-        }))
-        .pipe(minifyHtml({
-          empty: true,
-          spare: true,
-          quotes: true
-        }))
-        .pipe(ngHtml2Js({
-          moduleName: "angularTemplates2JS",
-          prefix: "/public/" + templateFolder + "/"
-        }))
-        .pipe((gulpif(!devEnvironment, uglify({
-          mangle: false
-        }))))
-        .pipe(gulp.dest("./app/public/javascripts-min/templates/" + templateFolder))
-        .on('end', deferred.resolve);
-      return deferred.promise;
-    });
-  });
-
-  executePromisesBasedOnEnvironment(promiseQueue, function() {
-    helpers_logEnd("convertHTMLTemplatesToJS");
     return deferred.resolve();
   });
 
@@ -436,17 +297,6 @@ function watch() {
       .then(concatPackages);
   });
 
-  // Watch APP JS changes
-  gulpWatch([
-    "app/public/angular_apps/**/*",
-    "app/public/angular_components/**/*",
-    "app/public/angular_views/**/*",
-    "app/public/angular_layouts/**/*",
-    "!app/public/**/*.scss",
-    "!app/public/**/*.spec.js"
-  ], function () {
-    createAppJS();
-  });
 
   // Watch public folder changes
   gulpWatch([
@@ -462,16 +312,6 @@ function watch() {
     "app/public/sass/**/*.scss"
   ], function() {
     createContentCSS();
-  });
-
-  // Watch for App SASS changes
-  gulpWatch([
-    "app/public/angular_apps/**/*.scss",
-    "app/public/angular_components/**/*.scss",
-    "app/public/angular_layouts/**/*.scss",
-    "app/public/angular_views/**/*.scss"
-  ], function() {
-    createAppCSS();
   });
 
 }

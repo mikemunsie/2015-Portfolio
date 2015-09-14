@@ -1,1 +1,0 @@
-require("./__angularTemplates2JS.js");

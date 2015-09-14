@@ -10,7 +10,6 @@
     padding: $pad;
     background: rgba($header-color, .95);
     font-weight: 500;
-    border: 1px solid darken($header-color, 10);
     select {
       width: 100%;
       padding: 7.5px;
@@ -34,7 +33,7 @@
     .desc {
       display: block;
       font-size: 13px;
-      line-height: 20px;
+      line-height: 22px;
       margin-top: $pad;
       font-weight: 300;
       overflow: hidden;

@@ -6,8 +6,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cons = require('consolidate');
-var dust = require('dustjs-linkedin');
-var dustHelpers = require('dustjs-helpers');
+var dust = require('dustjs-helpers');
 
 // Routes
 var routes_api = require('./routes/api');
