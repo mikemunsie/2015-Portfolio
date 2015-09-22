@@ -90,6 +90,10 @@ p {
   line-height: 25px;
 }
 
+.feature-image {
+  display: none;
+}
+
 img {
   max-width: 100%;
 }
@@ -105,9 +109,6 @@ iframe {
 }
 
 @include respond-at(false, 550px) {
-  iframe {
-    display: none;
-  }
   pre {
     max-width: 100%;
     overflow: hidden;

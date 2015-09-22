@@ -20,6 +20,12 @@ $(function() {
     }
   });
 
+  // If there's an image in the content, let's use it and make it the bg!
+  var entryImages = $(".entry img.feature-image");
+  if (entryImages.length > 0) {
+    $(".hero .bg").css("background-image", "url('" + entryImages.first().attr("src") + "')")
+  }
+
   // Right widgets should stay in place as the browser moves
   $(window).on("scroll resize", function(e) {
     var t1, t2, top, width;
