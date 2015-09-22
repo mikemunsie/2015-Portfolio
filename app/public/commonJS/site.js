@@ -20,6 +20,7 @@ $(function() {
     }
   });
 
+  /*
   $("body").swipe({
     allowPageScroll: "vertical",
     swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
@@ -32,6 +33,7 @@ $(function() {
       }
     }
   });
+  */
 
   // If there's an image in the content, let's use it and make it the bg!
   var entryImages = $(".entry img.feature-image");
