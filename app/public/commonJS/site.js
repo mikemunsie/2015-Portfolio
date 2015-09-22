@@ -20,6 +20,17 @@ $(function() {
     }
   });
 
+  $(window).on("swipeleft", function() {
+    if ($(".rightWidgets select option[selected]").prev("option").attr("value")) {
+      window.location = $(".rightWidgets select option[selected]").prev("option").attr("value");
+    }
+  });
+
+  $(window).on("swiperight", function() {
+    window.location = $(".nextPost .button").attr("href");
+  });
+
+
   // If there's an image in the content, let's use it and make it the bg!
   var entryImages = $(".entry img.feature-image");
   if (entryImages.length > 0) {
