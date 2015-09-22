@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
+    "jquery-touchswipe": "*",
     "bourbon": "4.0.2",
     "compass-mixins": "1.0.1",
     "font-awesome": "4.2.0",

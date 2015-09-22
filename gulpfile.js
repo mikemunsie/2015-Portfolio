@@ -48,6 +48,7 @@ var browserSyncConfig = {
 var packages = {
   "global": [
     "./app/public/vendor/jquery/dist/jquery.min.js",
+    "./app/public/vendor/jquery-touchswipe/jquery.touchSwipe.min.js",
     "./app/public/javascripts-min/commonJS/site.js",
     "./app/public/vendor-local/syntax/scripts/shCore.js",
     "./app/public/vendor-local/syntax/scripts/shBrushCss.js",

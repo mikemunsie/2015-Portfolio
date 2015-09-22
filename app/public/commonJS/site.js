@@ -20,16 +20,17 @@ $(function() {
     }
   });
 
-  $("*").on("swipeleft", function() {
-    if ($(".rightWidgets select option[selected]").prev("option").attr("value")) {
-      window.location = $(".rightWidgets select option[selected]").prev("option").attr("value");
+  $("body").swipe({
+    swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
+      if (direction === "left") {
+        window.location = $(".nextPost .button").attr("href");
+      } else {
+         if ($(".rightWidgets select option[selected]").prev("option").attr("value")) {
+          window.location = $(".rightWidgets select option[selected]").prev("option").attr("value");
+        }
+      }
     }
   });
-
-  $("*").on("swiperight", function() {
-    window.location = $(".nextPost .button").attr("href");
-  });
-
 
   // If there's an image in the content, let's use it and make it the bg!
   var entryImages = $(".entry img.feature-image");
