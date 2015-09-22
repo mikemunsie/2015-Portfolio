@@ -20,13 +20,13 @@ $(function() {
     }
   });
 
-  $(window).on("swipeleft", function() {
+  $("*").on("swipeleft", function() {
     if ($(".rightWidgets select option[selected]").prev("option").attr("value")) {
       window.location = $(".rightWidgets select option[selected]").prev("option").attr("value");
     }
   });
 
-  $(window).on("swiperight", function() {
+  $("*").on("swiperight", function() {
     window.location = $(".nextPost .button").attr("href");
   });
 
