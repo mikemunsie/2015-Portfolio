@@ -21,6 +21,7 @@ $(function() {
   });
 
   $("body").swipe({
+    allowPageScroll: "vertical",
     swipe: function(event, direction, distance, duration, fingerCount, fingerData) {
       if (direction === "left") {
         window.location = $(".nextPost .button").attr("href");
