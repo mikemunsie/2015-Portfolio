@@ -10,13 +10,11 @@
     padding: $pad;
     background: rgba($header-color, .95);
     font-weight: 500;
-    select {
-      width: 100%;
-      padding: 7.5px;
-      margin-bottom: $pad;
-      background: #dfdfdf;
-      border: 1px solid #aaaaaa;
-      color: #000;
+    .custom-dropdown {
+      margin-bottom: 15px;
+      select {
+        width: 100%;
+      }
     }
     strong {
       display: block;

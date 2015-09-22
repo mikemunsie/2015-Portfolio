@@ -1,20 +1,5 @@
 <!DOCTYPE html>
-<!--
-  
- ,ggg, ,ggg,_,ggg,                                                     
-dP""Y8dP""Y88P""Y8b                                                    
-Yb, `88'  `88'  `88                                                    
- `"  88    88    88                                       gg           
-     88    88    88                                       ""           
-     88    88    88  gg      gg   ,ggg,,ggg,     ,g,      gg    ,ggg,  
-     88    88    88  I8      8I  ,8" "8P" "8,   ,8'8,     88   i8" "8i 
-     88    88    88  I8,    ,8I  I8   8I   8I  ,8'  Yb    88   I8, ,8I 
-     88    88    Y8,,d8b,  ,d8b,,dP   8I   Yb,,8'_   8) _,88,_ `YbadP' 
-     88    88    `Y88P'"Y88P"`Y88P'   8I   `Y8P' "YY8P8P8P""Y8888P"Y888
-
-Husband, Front End Engineer, Musician, Writer, Tetris Fanatic.
-
--->
+<!-- MIKE MUNSIE : MUNSTROCITY : HELLO WORLD :) -->
 <html>
   {>"layouts/default/head" /}
   <body class="layouts-default">
