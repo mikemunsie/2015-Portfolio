@@ -6,10 +6,8 @@
   <h1>
     I made this by mistake, and it's pretty cool :)
   </h1>
-  <p>
-    <a href="/public/images/jackson-pollock-codepen.jpg" target="_blank"/>
-      <img src="/public/images/jackson-pollock-codepen.jpg" />
-    </a>
+  <p data-height="468" data-theme-id="0" data-slug-hash="YyGPzJ" data-default-tab="result" data-user="mikemunsie" class='codepen'>See the Pen <a href='http://codepen.io/mikemunsie/pen/YyGPzJ/'>The Jackson Pollock</a> by Michael Munsie (<a href='http://codepen.io/mikemunsie'>@mikemunsie</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
   </p>
   <p>
     This is actually quite a funny story. I was working more on my sprite engine tonight and was adding in the ability for circle sprites. Once I got that in, I started playing around to make sure everything was working. So I made some circles appear and dissapear, dynamically changed sizes, did the whole color pulse thing, and then completely geeked out to my wife to show her all the cool little effects I can do.
@@ -20,10 +18,7 @@
     So a few iterations later, I get something that looks kinda "meh". Kinda looked like a blur of colors and kinda crappy. So I started adjusting colors and then while doing so I made a typo... this unexpected typo gave my image the modern effect it needed! So I kept iterating and then created the result you see here.
   </p> 
   <p>
-    <strong>Lesson learned:</strong> there's no such thing as a mistake in art. Mistakes are your friend. Here's the codepen:
-  </p>
-
-  <p data-height="468" data-theme-id="0" data-slug-hash="YyGPzJ" data-default-tab="result" data-user="mikemunsie" class='codepen'>See the Pen <a href='http://codepen.io/mikemunsie/pen/YyGPzJ/'>The Jackson Pollock</a> by Michael Munsie (<a href='http://codepen.io/mikemunsie'>@mikemunsie</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+    <strong>Lesson learned:</strong> there's no such thing as a mistake in art. Mistakes are your friend :)
+  </p>  
 
 {/content}
