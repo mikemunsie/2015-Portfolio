@@ -13,7 +13,7 @@ var routes_api = require('./routes/api');
 var routes_views = require('./routes/views');
 
 // Dust Config
-//dust.config.whitespace = true;
+dust.config.whitespace = true;
 
 // view engine setup
 app = express();
