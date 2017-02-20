@@ -8,7 +8,7 @@
 </p>
 
 <p>
-  That aside, I&#39;ve been working on a little personal&nbsp;project that utilizes custom elements (just like AngularJS) but with the ability to add custom elements into the DOM and automatically update to the appropriate snippet. So by adding in &lt;custom element=&quot;header&quot;&gt;&lt;/custom&gt; gets replaced with &lt;div class=&quot;header&quot;&gt;...&lt;/div&gt; through an insert. That means Inspect Element - add element - mutation observer callback gets fired and bam new element is on the page.
+  That aside, I&#39;ve been working on a little personal&nbsp;project that utilizes custom elements (just like AngularJS) but with the ability to add custom elements into the DOM and automatically update to the appropriate snippet. So by adding in &lt;custom element=&quot;header&quot;&gt;&lt;/custom&gt; gets replaced with &lt;div class=&quot;header&quot;&gt;...&lt;/div&gt; through an insert. That means Inspect Element - add element - mutation observer callback gets fired and bam - the new element is on the page.
 </p>
 
 <p>

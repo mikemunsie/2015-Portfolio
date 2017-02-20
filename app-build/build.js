@@ -1,38 +1,38 @@
-var _ =             require("lodash-node");
-var browserify =    require('gulp-browserify');
-var browserSync =   require("browser-sync");
-var del =           require("del");
-var concat =        require('gulp-concat');
-var eventEmitter =  require('events').EventEmitter;
-var fs =            require('fs');
-var glob =          require("glob");
-var gulp =          require("gulp");
-var gulpif =        require("gulp-if");
-var gulpUtil =      require("gulp-util");
-var gulpWatch =     require("gulp-watch");
-var minifyCSS =     require("gulp-minify-css");
-var minifyHtml =    require('gulp-minify-html');
-var ngAnnotate =    require('gulp-ng-annotate');
-var ngHtml2Js =     require('gulp-ng-html2js');
-var Q =             require("q");
-var path =          require("path");
-var plumber =       require("gulp-plumber");
-var sass =          require("gulp-sass");
-var shell =         require("gulp-shell");
-var spawn =         require('child_process').spawn;
-var sourcemaps =    require("gulp-sourcemaps");
-var uglify =        require('gulp-uglify');
-var walk =          require('walk');
+const _ =             require("lodash-node");
+const browserify =    require('gulp-browserify');
+const browserSync =   require("browser-sync");
+const del =           require("del");
+const concat =        require('gulp-concat');
+const fs =            require('fs');
+const glob =          require("glob");
+const gulp =          require("gulp");
+const gulpif =        require("gulp-if");
+const gulpUtil =      require("gulp-util");
+const gulpWatch =     require("gulp-watch");
+const minifyCSS =     require("gulp-minify-css");
+const minifyHtml =    require('gulp-minify-html');
+const ngAnnotate =    require('gulp-ng-annotate');
+const ngHtml2Js =     require('gulp-ng-html2js');
+const Q =             require("q");
+const path =          require("path");
+const plumber =       require("gulp-plumber");
+const sass =          require("gulp-sass");
+const shell =         require("gulp-shell");
+const spawn =         require('child_process').spawn;
+const sourcemaps =    require("gulp-sourcemaps");
+const uglify =        require('gulp-uglify');
+const walk =          require('walk');
 
 // ====================================
 // Globals
 // ====================================
 
-var devEnvironment = false;
-var fastDev = false;
-var port = 9003;
+exports.devEnvironment = false;
+let fastDev = false;
+let port = 9001;
+let node = null;
 
-var browserSyncConfig = {
+const browserSyncConfig = {
   files: [
     "app/public/images/**/*",
     "app/public/javascripts-min/packages/**/*.js",
@@ -45,7 +45,7 @@ var browserSyncConfig = {
   reloadDelay: 1000
 };
 
-var packages = {
+const packages = {
   "global": [
     "./app/public/vendor/jquery/dist/jquery.min.js",
     "./app/public/vendor/jquery-touchswipe/jquery.touchSwipe.min.js",
@@ -59,62 +59,30 @@ var packages = {
 };
 
 // ====================================
-// Tasks
-// ====================================
-
-gulp.task('prod', function() {
-  var deferred = Q.defer();
-  cleanAppJS()
-    .then(cleanCSS)
-    .then(createAppJS)
-    .then(createContentCSS)
-    .then(function() {
-      deferred.resolve();
-    });
-  return deferred.promise;
-});
-
-gulp.task("dev", function () {
-  var deferred = Q.defer();
-  devEnvironment = true;
-  eventEmitter.prototype._maxListeners = 100;
-  cleanAppJS()
-    .then(cleanCSS)
-    .then(createAppJS)
-    .then(createContentCSS)
-    .then(function() {
-      startServer();
-      startBrowserSync();
-      watch();
-    });
-  return deferred.promise;
-});
-
-// ====================================
 // Helpers
 // ====================================
 
-function helpers_logStart(name) {
+const helpers_logStart = (name) => {
   return gulpUtil.log(gulpUtil.colors.green("Started: " + name));
 }
 
-function helpers_logEnd(name) {
+const helpers_logEnd = (name) => {
   return gulpUtil.log(gulpUtil.colors.blue("(completed) - " + name));
 }
 
-function helpers_logError(err) {
+const helpers_logError = (err) => {
   return gulpUtil.log(gulpUtil.colors.red(err));
 }
 
-function helpers_showError(msg){
+const helpers_showError = (msg) => {
   gulpUtil.log(gulpUtil.colors.red(msg));
 }
 
-function executePromisesBasedOnEnvironment(promiseQueue, callback) {
+const executePromisesBasedOnEnvironment = (promiseQueue, callback) => {
   var qArray = [];
 
   // Blitz if we are in dev
-  if (devEnvironment) {
+  if (exports.devEnvironment) {
     _.forEach(promiseQueue, function(promise) {
       qArray.push(promise());
     });
@@ -130,7 +98,7 @@ function executePromisesBasedOnEnvironment(promiseQueue, callback) {
   }
 }
 
-function sequentiallyExecutePromiseQueue(promiseQueue, index, callback) {
+const sequentiallyExecutePromiseQueue = (promiseQueue, index, callback) => {
   if (index >= promiseQueue.length) {
     return callback.call();
   }
@@ -144,8 +112,7 @@ function sequentiallyExecutePromiseQueue(promiseQueue, index, callback) {
 // Routines
 // ====================================
 
-
-function cleanCSS(){
+exports.cleanCSS = () => {
   var deferred = Q.defer();
   helpers_logStart("Clean CSS");
   del.sync(["./app/public/stylesheets/"], {
@@ -156,7 +123,7 @@ function cleanCSS(){
   return deferred.promise;
 }
 
-function cleanAppJS(){
+exports.cleanAppJS = ()=> {
   var deferred = Q.defer();
   helpers_logStart("Clean App JS");
   del.sync(["./app/public/javascripts-min/"], {
@@ -167,21 +134,21 @@ function cleanAppJS(){
   return deferred.promise;
 }
 
-function createContentCSS() {
+exports.createContentCSS = () => {
   var deferred = Q.defer();
   helpers_logStart("Create CSS");
   gulp.src("./app/public/sass/**/*.scss")
   .pipe(plumber(function(err){
     return deferred.resolve();
   }))
-  .pipe(gulpif(devEnvironment, sourcemaps.init()))
+  .pipe(gulpif(exports.devEnvironment, sourcemaps.init()))
   .pipe(sass({
     onError: function(err) {
       return gulpUtil.log(gulpUtil.colors.red(err.message));
     }
   }))
-  .pipe(gulpif(devEnvironment, sourcemaps.write()))
-  .pipe(gulpif(!devEnvironment, minifyCSS({keepBreaks: false})))
+  .pipe(gulpif(exports.devEnvironment, sourcemaps.write()))
+  .pipe(gulpif(!exports.devEnvironment, minifyCSS({keepBreaks: false})))
   .pipe(gulp.dest("./app/public/stylesheets"))
   .on("end", function() {
     helpers_logEnd("Successfully Created CSS");
@@ -190,15 +157,15 @@ function createContentCSS() {
   return deferred.promise;
 }
 
-function createAppJS() {
+exports.createAppJS = () => {
   var deferred = Q.defer();
-  minifyCommonJS()
-    .then(concatPackages)
+  exports.minifyCommonJS()
+    .then(exports.concatPackages)
     .then(deferred.resolve);
   return deferred.promise;
 }
 
-function concatPackages() {
+exports.concatPackages = () => {
   helpers_logStart("Concat Packages");
   var deferred = Q.defer();
   var promiseQueue = [];
@@ -206,7 +173,7 @@ function concatPackages() {
   var package_prefix = "package-";
 
   // If you are in dev, replace minified files with unminified files
-  if (devEnvironment) {
+  if (exports.devEnvironment) {
     _.forEach(packages, function(packageFiles, packageFilesIndex) {
       _.forEach(packageFiles, function(packageFile, packageFileIndex) {
         if (fs.existsSync(packageFile.replace(".min.js", ".js"))) {
@@ -240,7 +207,7 @@ function concatPackages() {
   return deferred.promise;
 }
 
-function minifyCommonJS() {
+exports.minifyCommonJS = () => {
   var deferred = Q.defer();
   helpers_logStart("Minify CommonJS");
   gulp
@@ -249,7 +216,7 @@ function minifyCommonJS() {
       helpers_showError(err);
       return deferred.resolve();
     }))
-    .pipe((gulpif(!devEnvironment, uglify({
+    .pipe((gulpif(!exports.devEnvironment, uglify({
       mangle: false
     }))))
     .pipe(gulp.dest('./app/public/javascripts-min/commonJS/'))
@@ -260,7 +227,7 @@ function minifyCommonJS() {
   return deferred.promise;
 }
 
-function startBrowserSync() {
+exports.startBrowserSync = () => {
   helpers_logStart("Starting BrowserSync.");
   var deferred = Q.defer();
   browserSync.init([], browserSyncConfig);
@@ -268,19 +235,17 @@ function startBrowserSync() {
   return deferred.promise;
 }
 
-function startServer() {
-  helpers_logStart("Starting Server.");
-  var deferred = Q.defer();
-  deferred.resolve();
-  shell.task([
-    "PORT=" + port + " nodemon --watch app/views --watch app/routes --watch app/app.js app/bin/www"
-  ], {
-    "ignoreErrors": true
-  })();
-  return deferred.promise;
+exports.startServer = () => {
+  if (node) node.kill()
+  node = spawn('node', ['./app/bin/www'], {stdio: 'inherit'})
+  node.on('close', function (code) {
+    if (code === 8) {
+      gulp.log('Error detected, waiting for changes...');
+    }
+  });
 }
 
-function watch() {
+exports.watch = () => {
   helpers_logStart("Started watching for changes...");
 
   // Watch content changes
@@ -294,8 +259,8 @@ function watch() {
   gulpWatch([
     "app/public/commonJS/*.js"
   ], function() {
-    minifyCommonJS()
-      .then(concatPackages);
+    exports.minifyCommonJS()
+      .then(exports.concatPackages);
   });
 
 
@@ -312,7 +277,7 @@ function watch() {
   gulpWatch([
     "app/public/sass/**/*.scss"
   ], function() {
-    createContentCSS();
+    exports.createContentCSS();
   });
 
 }
