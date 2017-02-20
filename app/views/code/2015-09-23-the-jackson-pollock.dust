@@ -3,13 +3,12 @@
 {<date}09/23/2015{/date}
 {<content}
   <img class="feature-image" src="/public/images/jackson-pollock-codepen.jpg" />
+  <p data-height="468" data-theme-id="0" data-slug-hash="YyGPzJ" data-default-tab="result" data-user="mikemunsie" class='codepen'>See the Pen <a href='http://codepen.io/mikemunsie/pen/YyGPzJ/'>The Jackson Pollock</a> by Michael Munsie (<a href='http://codepen.io/mikemunsie'>@mikemunsie</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+    <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+  </p>
   <h1>
     I made this by mistake, and it's pretty cool :)
   </h1>
-  <br/>
-  <p data-height="468" data-theme-id="0" data-slug-hash="YyGPzJ" data-default-tab="result" data-user="mikemunsie" class='codepen'>See the Pen <a href='http://codepen.io/mikemunsie/pen/YyGPzJ/'>The Jackson Pollock</a> by Michael Munsie (<a href='http://codepen.io/mikemunsie'>@mikemunsie</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-  <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
-  </p>
   <p>
     This is actually quite a funny story. I was working more on my sprite engine tonight
     and was adding in the ability for circle sprites. Once I got that in, I started playing

@@ -2,16 +2,17 @@
 
 .header {
   background: $header-color;
-  height: 75px;
+  height: 65px;
   position: relative;
   z-index: 1;
+  background-image: linear-gradient(#242424, #000);
   .logo {
     float: left;
-    margin-top: 18px;
+    margin-top: 12px;
   }
   .nav {
     float: right;
-    line-height: 70px;
+    line-height: 60px;
     a {
       font-weight: 300;
       color: white;
@@ -29,8 +30,8 @@
         @include animate(popUp, 0.3s, 0s);
       }
       &.selected {
-        color: $link-color;
-        border-top: 5px solid $link-color;
+        color: #fff;
+        border-top: 5px solid #fff;
         font-weight: 500;
       }
     }

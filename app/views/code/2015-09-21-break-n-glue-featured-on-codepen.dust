@@ -3,12 +3,12 @@
 {<date}09/21/2015{/date}
 {<content}
   <img class="feature-image" src="/public/images/break-n-glue.png" />
-  <h1>My snippet got featured from CodePen!</h1>
   <p>
     <a href="/public/images/codepen-9-21-2015-featured.png" target="_blank"/>
       <img src="/public/images/codepen-9-21-2015-featured.png" />
     </a>
   </p>
+  <h1>My snippet got featured on CodePen!</h1>
   <p>
     I spent a few hours hacking away on my own JS sprite engine yesterday and came up with a cool effect. I've been fascinated by the "swirly orb" effect for years now, and even have stuff dating back to old portfolios in 2008 and even my old MySpace (which doesn't exist). I recreated the effect using HTML5 canvas with some help from a new routines I created in the engine. I basically created a bunch of pixels that orbit around each other and then can separate and glue itself back together.
   </p>
