@@ -1,4 +1,13 @@
 munstrocity.com
 =======================
 
-This is my personal website written in NodeJS, AngularJS, SASS, Gulp, and of course deployed using Git. Sweetness. 
+http://munstrocity.com
+
+My personal site for projects, code, and experiences.
+
+##Tech Stack##
+- Express
+- Webpack
+- DustJS
+- SASS
+- Vanilla JS
