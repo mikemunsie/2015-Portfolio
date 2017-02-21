@@ -1,0 +1,12 @@
+{>"layouts/blog/blog"/}
+{<title}Brightwing Home Health{/title}
+{<date}12/06/2012{/date}
+{<content}
+
+<p>Helped design the look and feel for the Home Health company, BrightWing. This was the first time branching into a small fun project in quite some time. Got to use some of the new front end skills I&#39;ve learned as well as layout and color scheme. All prototypes were created in Keynote and developed in JSP.&nbsp;</p>
+
+<p>Have a peek @&nbsp;<a href="http://brightwinghomehealth.com">http://brightwinghomehealth.com</a></p>
+
+<p><img alt="" src="/app/images/brightwing-preview.png" /></p>
+
+{/content}

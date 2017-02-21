@@ -1,0 +1,14 @@
+{>"layouts/blog/blog"/}
+{<title}2013 MikeMunsie.com Redesign{/title}
+{<date}04/15/2013{/date}
+{<content}
+
+<p>So it&#39;s the year 2013 and we&#39;ve been in the year for a few months now. That means that my site is now out of date! Okay, it really isn&#39;t, but I feel having all these squares on my site is looking kinda &quot;blocky&quot;. Been looking at a lot of great sites lately and I feel my site just isn&#39;t easy to read.</p>
+
+<p>So with that I wanted a new design that&#39;s easier on the eyes, a bit more organized and encourages the user to check out my other posts, and lastly give some consistency with the colors. As I learn more about colors, fonts, gradients, usability, and so forth - I realize I could do a lot better.</p>
+
+<p>I present to you the new design (implementing soon)</p>
+
+<p><img src="/app/images/portfolio-2013.png" /></p>
+
+{/content}

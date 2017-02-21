@@ -1,0 +1,21 @@
+// ========================
+// Variables
+// ========================
+
+$link-color: #acf;
+$header-color: #242424;
+$accent-color: #B32D2C;
+$red-color: #4B719D;
+
+$colors-background: #111;
+$container: 1100px;
+$default-text: #ccc;
+$fa-font-path: "../../vendor/font-awesome/fonts";
+$pad: 15px;
+
+// ========================
+// Mixins
+// ========================
+
+@import "mixins/helpers";
+@import "mixins/transitions";
