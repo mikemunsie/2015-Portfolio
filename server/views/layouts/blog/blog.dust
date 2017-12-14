@@ -37,11 +37,11 @@
             </div>
           </div>
           <div class="aboutMe">
-            <img src="https://pbs.twimg.com/profile_images/609443134708170752/g9SYd2Vp.jpg" class="pic" />
+            <img src="https://pbs.twimg.com/profile_images/941132149637312512/ptggij5U_400x400.jpg" class="pic" />
             <div class="info">
               <strong>Michael Munsie</strong>
               <span>Front End Engineer</span>
-              <span>Research Now</span>
+              <span>Toyota Connected</span>
               <a href="http://twitter.com/munstrocity" target="_blank">
                 <span>@munstrocity</span>
               </a>
@@ -52,9 +52,6 @@
             <a target="_blank" class="fa fa-github" href="http://github.com/mikemunsie"></a>
             <a target="_blank" class="fa fa-linkedin" href="http://www.linkedin.com/in/michaelmunsie"></a>
             <a target="_blank" class="fa fa-twitter" href="http://twitter.com/munstrocity"></a>
-            <a target="_blank" class="fa fa-soundcloud" href="http://soundcloud.com/webmastermunsie"></a>
-            <a target="_blank" class="fa fa-book" href="http://mikemunsie.gitbooks.io/introverts-guide-to-the-galaxy/"></a>
-            <a target="_blank" class="fa fa-youtube" href="http://youtube.com/munsiem"></a> 
           </div>
         </div>
         <div class="entry">
