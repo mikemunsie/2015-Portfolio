@@ -5,7 +5,7 @@ munstrocity.com
 
 My personal site for projects, code, and experiences.
 
-##Tech Stack##
+## Tech Stack
 - Express
 - Webpack
 - DustJS
