@@ -6,9 +6,10 @@
     "node": ">=6.9.1"
   },
   "scripts": {
-    "build": "node app-build/scripts/default",
     "dev": "node app-build/scripts/dev",
-    "prodTest": "node app-build/scripts/prodTest"
+    "build": "node app-build/scripts/build",
+    "start": "node server/app",
+    "deploy": "bash ../../deploy/munstrocity.com/deploy.sh"
   },
   "private": true,
   "dependencies": {
