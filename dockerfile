@@ -3,8 +3,9 @@ from node:9-slim
 ENV PORT=9001
 
 ADD package.json /tmp/package.json
-RUN cd /tmp && yarn
-RUN mkdir -p /usr/src/app && cp -a /tmp/node_modules /usr/src/app
+ADD yarn.lock /tmp/yarn.lock
+RUN cd /tmp && yarn install
+RUN mkdir -p /usr/app && cp -a /tmp/node_modules /usr/app
 
 ADD . /usr/app
 

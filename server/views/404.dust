@@ -5,7 +5,7 @@
 {/styles}
 {<content}
   <div class="postTemplate">
-    <h1>Sorry, this does not exist.</h1>
+    <h1>Sorry, this does not exist. Bam!</h1>
     <p>You might want to start questioning everything.</p>
     <a href="/">Return to Home</a>
   </div>
