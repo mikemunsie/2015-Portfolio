@@ -1,6 +1,6 @@
 from node:9-slim
 
-ENV PORT=9001
+ENV PORT=9000
 
 ADD package.json /tmp/package.json
 ADD yarn.lock /tmp/yarn.lock
