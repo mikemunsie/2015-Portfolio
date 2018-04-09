@@ -1,6 +1,6 @@
 from node:9-slim
 
-ENV PORT=9000
+ENV PORT=80
 
 ADD package.json /tmp/package.json
 ADD yarn.lock /tmp/yarn.lock
@@ -11,7 +11,5 @@ ADD . /usr/app
 
 WORKDIR '/usr/app'
 RUN npm run build
-
-EXPOSE 9000
 
 CMD [ "npm", "start" ]
