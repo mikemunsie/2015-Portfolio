@@ -12,4 +12,6 @@ ADD . /usr/app
 WORKDIR '/usr/app'
 RUN npm run build
 
+EXPOSE 9000
+
 CMD [ "npm", "start" ]
