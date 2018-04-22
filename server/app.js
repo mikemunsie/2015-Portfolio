@@ -29,7 +29,8 @@ app.use(cookieParser());
 app.use((req, res, next) => {
   if (!(req.headers.host.indexOf('munstrocity') > -1 || req.headers.host.indexOf('localhost') > -1)) {
     res.render('stop');
-    res.status('200');    
+    res.status('200');  
+    return;  
   }
   next();
 });
