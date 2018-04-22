@@ -26,20 +26,11 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  res.send(req.headers.host);
-  return;
-  if (!(req.headers.host.indexOf('munstrocity') > -1 || req.headers.host.indexOf('localhost') > -1)) {
-    res.render('stop');
-    res.status('200');  
-    return;  
-  }
-  next();
-});
-
-
 app.use('/app', express.static(path.join(__dirname, '../app')));
 app.use('/', routes_views);
+app.use('/stop', (req, res, next) => {
+  res.render('stop');
+});
 
 // 404 page
 app.use((req, res, next) => {

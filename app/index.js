@@ -1,3 +1,8 @@
+const locationRef = window.location.href;
+if (!(locationRef.indexOf('munstrocity') > -1 || locationRef.indexOf('localhost') > -1)) {
+  window.location.href = 'stop';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   SyntaxHighlighter.highlight();
 
