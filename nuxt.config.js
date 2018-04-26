@@ -1,16 +1,19 @@
 module.exports = {
+  css: [
+    { src: '~styles/style.scss', lang: 'scss' }
+  ],
   /*
   ** Headers of the page
   */
   head: {
-    title: 'munstrocity.com',
+    title: 'Munstrocity.com',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Nuxt.js project' }
+      { hid: 'description', name: 'description', content: 'Front End Developer based in Dallas, TX' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/images/favicon.png' }
     ]
   },
   /*

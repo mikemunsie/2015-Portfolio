@@ -1,0 +1,69 @@
+@import "../config";
+
+.header {
+  background: $header-color;
+  height: 65px;
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(#242424, #000);
+  .logo {
+    float: left;
+    margin-top: 12px;
+  }
+  .nav {
+    float: right;
+    line-height: 60px;
+    a {
+      font-weight: 300;
+      color: white;
+      display: block;
+      float: left;
+      margin-right: $pad * 3;
+      font-size: 18px;
+      border-top: 5px solid transparent;
+      text-align: center;
+      @include animate(popDown, 0.3s, 0s);
+      &.last {
+        margin-right: 0;
+      }
+      &:hover {
+        @include animate(popUp, 0.3s, 0s);
+      }
+      &.selected {
+        color: #fff;
+        border-top: 5px solid #fff;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+@include respond-at(false, 485px) {
+  body {
+    padding-top: 50px;
+  }
+  .header {
+    position: fixed;
+    border-bottom: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    .logo {
+      width: 140px;
+      height: 35px;
+      background-size: cover;
+      margin-top: 8px;
+    }
+    .nav {
+      line-height: 50px;
+      a {
+        margin-right: 15px;
+        font-size: 16px;
+        text-align: center;
+        width: 75px;
+        padding-right: 0;
+      }
+    }
+  }
+}

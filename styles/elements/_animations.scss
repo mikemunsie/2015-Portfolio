@@ -1,0 +1,29 @@
+@import "../config";
+@import "../mixins/transitions";
+
+@-webkit-keyframes borderFlareHover {
+  0% {
+    border-bottom: 8px solid #F69C00;
+  }
+  100% {
+    border-bottom: 8px solid lighten(#F69C00, 20);
+  }
+}
+
+@-webkit-keyframes borderFlare {
+  0% {
+    border-bottom: 8px solid lighten(#F69C00, 20);
+  }
+  100% {
+    border-bottom: 8px solid #F69C00;
+  }
+}
+
+@-webkit-keyframes titleBlur {
+  0% {
+    -webkit-filter: blur(50px);
+  }
+  100% {
+    -webkit-filter: blur(0px);
+  }
+}
