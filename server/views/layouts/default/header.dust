@@ -1,9 +1,0 @@
-<div class="header">
-  <div class="container">
-    <a class="image logo" href="/"></a>
-    <div class="nav">
-      <a class="code {@eq key=category value="code"}selected{/eq}" href="/code">Code</a>
-      <a class="projects last {@eq key=category value="projects"}selected{/eq}" href="/projects">Projects</a>
-    </div>
-  </div>
-</div>

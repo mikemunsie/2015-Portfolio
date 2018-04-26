@@ -1,8 +1,0 @@
-<!DOCTYPE html>
-<!-- MIKE MUNSIE : MUNSTROCITY : HELLO WORLD :) -->
-<html>
-  {>"layouts/default/head" /}
-  <body class="layouts-default">
-    {+content/}
-  </body>
-</html>

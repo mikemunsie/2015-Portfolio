@@ -1,13 +1,22 @@
-munstrocity.com
-=======================
+# munstrocity.com
 
-<a href="http://munstrocity.com" target="_blank">http://munstrocity.com</a>
+> Nuxt.js project
 
-My personal site for projects, code, and experiences.
+## Build Setup
 
-## Tech Stack
-- Express
-- Webpack
-- DustJS
-- SASS
-- Vanilla JS
+``` bash
+# install dependencies
+$ npm install # Or yarn install
+
+# serve with hot reload at localhost:3000
+$ npm run dev
+
+# build for production and launch server
+$ npm run build
+$ npm start
+
+# generate static project
+$ npm run generate
+```
+
+For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
